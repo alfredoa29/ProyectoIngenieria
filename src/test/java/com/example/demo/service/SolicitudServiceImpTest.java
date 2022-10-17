@@ -68,7 +68,7 @@ class SolicitudServiceImpTest {
         solicitud =  new Solicitud();
         solicitud.setId(1L);
         solicitud.setUsuario(user);
-        solicitud.setEstado(false);
+        solicitud.setEstado(true);
         solicitud.setFecha("10-10-22");
         solicitud.setQuioscoPersonal(vacacion);
         solicitud.getFecha();

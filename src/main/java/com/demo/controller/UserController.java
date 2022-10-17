@@ -182,10 +182,7 @@ public class UserController {
     }
 
 
-    @GetMapping( "/prueba")
-    public String prueba(){
-        return "user-form/confirm-delete-dialog";
-    }
+
 
    @GetMapping("/vacacionForm")
     public String vacacionForm(Model model) {
@@ -238,7 +235,7 @@ public class UserController {
     }
 
 
-    @GetMapping("/vacacionForm/aceptar{id}")
+    @GetMapping("/vacacionForm/aceptar/{id}")
     public String aceptarSolicitud(Model model, @PathVariable(name ="id") Long id){
         try {
             solicitudService.aceptarSolicitud(id);
@@ -247,8 +244,8 @@ public class UserController {
         }catch (Exception e){
             model.addAttribute("listErrorMessage", e.getMessage());
         }
-        //retorna variable de arriba
-        return vacacionForm(model);
+
+          return "redirect:/vacacionForm";
     }
 
     @GetMapping( "/error")
