@@ -1,10 +1,11 @@
 package com.demo.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
+
 
 @Entity
-
-public class Vacacion extends QuioscoPersonal  {
+public class Vacacion implements Serializable {
 
 
     @Column
@@ -13,6 +14,9 @@ public class Vacacion extends QuioscoPersonal  {
     String fechaInicio;
     @Column
     String fechaFinal;
+    @Id
+    @GeneratedValue
+    private Long id;
 
 
     public Vacacion() {
@@ -58,7 +62,15 @@ public class Vacacion extends QuioscoPersonal  {
                 ", fechaInicio='" + fechaInicio + '\'' +
                 ", fechaFinal='" + fechaFinal + '\'' +
                 ", id=" + id +
-                ", nombreSolicitud='" + nombreSolicitud + '\'' +
                 '}';
+    }
+
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getId() {
+        return id;
     }
 }

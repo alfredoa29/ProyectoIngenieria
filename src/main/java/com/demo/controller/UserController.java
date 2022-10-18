@@ -2,16 +2,19 @@ package com.demo.controller;
 
 import com.demo.dto.ChangePasswordForm;
 import com.demo.entity.Solicitud;
+import com.demo.entity.SolicitudVacacion;
 import com.demo.entity.User;
 import com.demo.entity.Vacacion;
 import com.demo.repository.RoleRepository;
 import com.demo.service.RoleService;
+
 import com.demo.service.SolicitudService;
 import com.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -23,9 +26,11 @@ import java.util.stream.Collectors;
 
 //@Validated
 @Controller
+@Transactional
 public class UserController {
 
     //autowired es para inyeccion de independencias
+
     @Autowired
     UserService userService;
 
@@ -34,8 +39,10 @@ public class UserController {
     @Autowired
     RoleRepository roleRepository;
 
-   @Autowired
-    SolicitudService solicitudService;
+    @Autowired
+    SolicitudService solicitudVacacionImp;
+
+
 
 
     @GetMapping({"/", "/login"})
@@ -188,9 +195,10 @@ public class UserController {
     public String vacacionForm(Model model) {
         try {
             User loggedUser = userService.getLoggedUser();
+            //solicitudService = new SolicitudVacacionImp();
             model.addAttribute("vacacionForm", new Vacacion());
-            model.addAttribute("vacacionList", solicitudService.encontrarSolicitudesPorUsuario(loggedUser));
-            model.addAttribute("vacacionAllSolicitudes",solicitudService.encontrarTodos());
+            model.addAttribute("vacacionList", solicitudVacacionImp.encontrarSolicitudesPorUsuario(loggedUser));
+            model.addAttribute("vacacionAllSolicitudes",solicitudVacacionImp.encontrarTodos());
             model.addAttribute("vacaLisTab", "active");
             return "vacacion-form/vacacion-view";
         } catch (Exception e) {
@@ -209,14 +217,14 @@ public class UserController {
 
         }else {
             try {
+
+
                 loggedUser = userService.getLoggedUser();
-                Solicitud solicitud = new Solicitud();
+                SolicitudVacacion solicitud = new SolicitudVacacion();
                 solicitud.setEstado(false);
-                solicitud.setFecha("16-10-2022");
                 solicitud.setUsuario(loggedUser);
-                vacacion.setNombreSolicitud("vacacion");
-                solicitud.setQuioscoPersonal(vacacion);
-                solicitudService.crearSolicitudPersonal(solicitud);
+                solicitud.setVacacion(vacacion);
+                solicitudVacacionImp.crearSolicitudPersonal(solicitud);
                 model.addAttribute("vacacionForm", new Vacacion() );
                 model.addAttribute("vacacionList", "active");
 
@@ -228,7 +236,7 @@ public class UserController {
 
 
             }
-            model.addAttribute("vacacionList", solicitudService.encontrarSolicitudesPorUsuario(loggedUser));
+            model.addAttribute("vacacionList", solicitudVacacionImp.encontrarSolicitudesPorUsuario(loggedUser));
 
         }
         return "vacacion-form/vacacion-view";
@@ -238,7 +246,7 @@ public class UserController {
     @GetMapping("/vacacionForm/aceptar/{id}")
     public String aceptarSolicitud(Model model, @PathVariable(name ="id") Long id){
         try {
-            solicitudService.aceptarSolicitud(id);
+            solicitudVacacionImp.aceptarSolicitud(id);
 
 
         }catch (Exception e){

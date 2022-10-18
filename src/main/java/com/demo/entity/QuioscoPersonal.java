@@ -3,12 +3,12 @@ package com.demo.entity;
 import javax.persistence.*;
 import java.io.Serializable;
 
-@Entity
-@Inheritance(strategy = InheritanceType.JOINED)
+//@Entity
+//@Inheritance(strategy = InheritanceType.JOINED)
 
 public abstract class QuioscoPersonal implements Serializable {
 
-    @Id
+/*    @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
     //@Column(name = "id", updatable = false, nullable = false)
     protected Long id;
@@ -31,5 +31,5 @@ public abstract class QuioscoPersonal implements Serializable {
 
     public void setNombreSolicitud(String nombreSolicitud) {
         this.nombreSolicitud = nombreSolicitud;
-    }
+    }*/
 }

@@ -4,7 +4,6 @@ import com.demo.dto.ChangePasswordForm;
 import com.demo.entity.*;
 import com.demo.repository.RoleRepository;
 import com.demo.repository.UserRepository;
-import jdk.dynalink.linker.LinkerServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -12,7 +11,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.w3c.dom.stylesheets.LinkStyle;
 
 import java.util.*;
 
@@ -37,42 +35,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public Iterable<User> getAllUsers() {
 
-/*
-        Role roleUser = roleRepository.findByName("USER");
-
-        Set<Role> roles = new HashSet<Role>();
-
-        roles.add(roleUser);
-
-        Vacacion vacacion = new Vacacion();
-        vacacion.setNombreSolicitud("vacacion");
-        vacacion.setFechaInicio("29-10-22");
-        vacacion.setNumDias(3);
-        vacacion.setFechaFinal("31-10-22");
-
-
-        User  user = new User();
-        try {
-             user = getUserById(2L);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-
-        Solicitud solicitud1 = new Solicitud();
-        solicitud1.setId(11L);
-        solicitud1.setUsuario(user);
-        solicitud1.setEstado(true);
-        solicitud1.setFecha("10-10-22");
-        solicitud1.setQuioscoPersonal(vacacion);
-        solicitud1.getFecha();
-        solicitud1.getQuioscoPersonal().getId();
-        
-
-        solicitudService.crearSolicitudPersonal(solicitud1);*/
-
-
-        List<Solicitud> list = solicitudService.encontrarSolicitudesPorEstadoTrue();
-        list.toString();
         return repository.findAll();
     }
 

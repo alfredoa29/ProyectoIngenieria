@@ -1,12 +1,9 @@
 package com.example.demo.service;
 
-import com.demo.entity.Role;
-import com.demo.entity.Solicitud;
-import com.demo.entity.User;
-import com.demo.entity.Vacacion;
+import com.demo.entity.*;
 import com.demo.repository.RoleRepository;
-import com.demo.repository.SolicitudRepository;
-import com.demo.service.SolicitudServiceImp;
+import com.demo.repository.SolicitudVacacionRepository;
+import com.demo.service.SolicitudVacacionImp;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -24,18 +21,18 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class SolicitudServiceImpTest {
+class SolicitudVacacionServiceImpTest {
 
     @Mock
-    private SolicitudRepository solicitudRepository;
+    private SolicitudVacacionRepository solicitudVacacionRepository;
 
 
-    private  Solicitud  solicitud;
+    private SolicitudVacacion solicitud;
 
     @Mock
     RoleRepository roleRepository;
     @InjectMocks
-    private SolicitudServiceImp solicitudServiceImp;
+    private SolicitudVacacionImp solicitudServiceImp;
 
 
 
@@ -65,14 +62,12 @@ class SolicitudServiceImpTest {
         user.setConfirmPassword("alfredo1234");
         user.setRoles(roles);
 
-        solicitud =  new Solicitud();
+        solicitud = new SolicitudVacacion();
         solicitud.setId(1L);
         solicitud.setUsuario(user);
         solicitud.setEstado(true);
         solicitud.setFecha("10-10-22");
-        solicitud.setQuioscoPersonal(vacacion);
-        solicitud.getFecha();
-        solicitud.getQuioscoPersonal().getId();
+        solicitud.setVacacion(vacacion);
 
     }
 
@@ -101,20 +96,18 @@ class SolicitudServiceImpTest {
         user1.setConfirmPassword("alfredo1234");
         user1.setRoles(roles);
 
-        Solicitud solicitud3 = new Solicitud();
+        SolicitudVacacion solicitud3 = new SolicitudVacacion();
         solicitud3.setId(1L);
         solicitud3.setUsuario(user1);
         solicitud3.setEstado(false);
         solicitud3.setFecha("11-11-22");
-        solicitud3.setQuioscoPersonal(vacacion);
-        solicitud3.getFecha();
-        solicitud3.getQuioscoPersonal().getId();
+        solicitud3.setVacacion(vacacion);
 
 
-        when(solicitudRepository.save(ArgumentMatchers.any(Solicitud.class))).thenReturn(solicitud3);
+        when(solicitudVacacionRepository.save(ArgumentMatchers.any(SolicitudVacacion.class))).thenReturn(solicitud3);
         Solicitud created = solicitudServiceImp.crearSolicitudPersonal(solicitud3);
         assertThat(created.getId()).isSameAs(solicitud.getId());
-        verify(solicitudRepository).save(solicitud3);
+        verify(solicitudVacacionRepository).save(solicitud3);
 
         //assertNotNull(solicitudServiceImp.crearSolicitudPersonal(solicitud));
     }
@@ -136,6 +129,11 @@ class SolicitudServiceImpTest {
         vacacion.setNumDias(3);
         vacacion.setFechaFinal("31-10-22");
 
+        Vacacion vacacion2 = new Vacacion();
+        vacacion2.setId(2L);
+        vacacion2.setFechaInicio("29-10-22");
+        vacacion2.setNumDias(3);
+        vacacion2.setFechaFinal("31-10-22");
 
         User user = new User();
         user.setId(117220056);
@@ -157,50 +155,43 @@ class SolicitudServiceImpTest {
         user1.setConfirmPassword("alfredo1234");
         user1.setRoles(roles);
 
-        Solicitud solicitud1 = new Solicitud();
+        SolicitudVacacion solicitud1 = new SolicitudVacacion();
         solicitud1.setId(11L);
         solicitud1.setUsuario(user);
         solicitud1.setEstado(false);
         solicitud1.setFecha("10-10-22");
-        solicitud1.setQuioscoPersonal(vacacion);
-        solicitud1.getFecha();
-        solicitud1.getQuioscoPersonal().getId();
+        solicitud1.setVacacion(vacacion);
 
-        Solicitud solicitud2 = new Solicitud();
+        SolicitudVacacion solicitud2 = new SolicitudVacacion();
         solicitud2.setId(2L);
         solicitud2.setUsuario(user1);
         solicitud2.setEstado(false);
         solicitud2.setFecha("10-10-22");
-        solicitud2.setQuioscoPersonal(vacacion);
-        solicitud2.getFecha();
-        solicitud2.getQuioscoPersonal().getId();
+        solicitud1.setVacacion(vacacion);
 
-        Solicitud solicitud3 = new Solicitud();
+        SolicitudVacacion solicitud3 = new SolicitudVacacion();
         solicitud3.setId(3L);
-        solicitud3.setUsuario(user1);
+        solicitud3.setUsuario(user);
         solicitud3.setEstado(false);
         solicitud3.setFecha("11-11-22");
-        solicitud3.setQuioscoPersonal(vacacion);
-        solicitud3.getFecha();
-        solicitud3.getQuioscoPersonal().getId();
-        //solicitudRepository.save(solicitud2);
-        solicitudRepository.save(solicitud2);
+        solicitud3.setVacacion(vacacion2);
 
-        List<Solicitud> solicituds = new LinkedList<>();
-        solicituds.add(solicitud1);
+
+        List<SolicitudVacacion> solicituds = new LinkedList<>();
+        //solicituds.add(solicitud1);
         solicituds.add(solicitud2);
         solicituds.add(solicitud3);
 
-        List<Solicitud> solicitudsExpec = new LinkedList<>();
-        solicitudsExpec.add(solicitud1);
+        List<SolicitudVacacion> solicitudsExpec = new LinkedList<>();
+        solicitudsExpec.add(solicitud3);
 
        // Iterable<Solicitud> solicituds2 = solicitudServiceImp.encontrarSolicitudesPorUsuario("117220056");
 
 
         //Long id = Long.valueOf(11);
-        given(solicitudRepository.findAll()).willReturn(solicituds);
+        given(solicitudVacacionRepository.findAll()).willReturn(solicituds);
 
-        List<Solicitud> givenFrom =  solicitudServiceImp.encontrarSolicitudesPorUsuario(user);
+        List<SolicitudVacacion> givenFrom =  solicitudServiceImp.encontrarSolicitudesPorUsuario(user);
 
         assertEquals(solicitudsExpec, givenFrom);
         //verify(solicitudRepository).findByUsuario(user1);
@@ -242,28 +233,26 @@ class SolicitudServiceImpTest {
         solicitud3.get().getFecha();
         solicitud3.get().getTipoSolicitud().getTipoId();*/
 
-        Solicitud solicitud2 = new Solicitud();
+        SolicitudVacacion solicitud2 = new SolicitudVacacion();
         solicitud2.setId(2L);
         solicitud2.setUsuario(user1);
         solicitud2.setEstado(false);
         solicitud2.setFecha("10-10-22");
-        solicitud2.setQuioscoPersonal(vacacion);
-        solicitud2.getFecha();
-        solicitud2.getQuioscoPersonal().getId();
+        solicitud2.setVacacion(vacacion);
 
-        Solicitud solicitud3 = new Solicitud();
+
+        SolicitudVacacion solicitud3 = new SolicitudVacacion();
         solicitud3.setId(3L);
         solicitud3.setUsuario(user1);
         solicitud3.setEstado(false);
         solicitud3.setFecha("11-11-22");
-        solicitud3.setQuioscoPersonal(vacacion);
-        solicitud3.getFecha();
-        solicitud3.getQuioscoPersonal().getId();
-        solicitudRepository.save(solicitud2);
+        solicitud3.setVacacion(vacacion);
 
-        when(solicitudRepository.findById(1L)).thenReturn(Optional.ofNullable(solicitud));
+        solicitudVacacionRepository.save(solicitud2);
 
-        Solicitud expected = solicitudServiceImp.encontrarSolicitudPorId(1L).get(); //con el get se llama la iddentity
+        when(solicitudVacacionRepository.findById(1L)).thenReturn(Optional.ofNullable(solicitud));
+
+        Solicitud expected = solicitudServiceImp.encontrarSolicitudPorId(1L); //con el get se llama la iddentity
         assertThat(solicitud).isSameAs(expected);
 
 
@@ -304,47 +293,41 @@ class SolicitudServiceImpTest {
         user1.setConfirmPassword("alfredo1234");
         user1.setRoles(roles);
 
-        Solicitud solicitud1 = new Solicitud();
+        SolicitudVacacion solicitud1 = new SolicitudVacacion();
         solicitud1.setId(11L);
         solicitud1.setUsuario(user);
         solicitud1.setEstado(true);
         solicitud1.setFecha("10-10-22");
-        solicitud1.setQuioscoPersonal(vacacion);
-        solicitud1.getFecha();
-        solicitud1.getQuioscoPersonal().getId();
+        solicitud1.setVacacion(vacacion);
 
-        Solicitud solicitud2 = new Solicitud();
+        SolicitudVacacion solicitud2 = new SolicitudVacacion();
         solicitud2.setId(2L);
         solicitud2.setUsuario(user1);
         solicitud2.setEstado(true);
         solicitud2.setFecha("10-10-22");
-        solicitud2.setQuioscoPersonal(vacacion);
-        solicitud2.getFecha();
-        solicitud2.getQuioscoPersonal().getId();
+        solicitud2.setVacacion(vacacion);
 
-        Solicitud solicitud3 = new Solicitud();
+        SolicitudVacacion solicitud3 = new SolicitudVacacion();
         solicitud3.setId(3L);
         solicitud3.setUsuario(user1);
         solicitud3.setEstado(false);
         solicitud3.setFecha("11-11-22");
-        solicitud3.setQuioscoPersonal(vacacion);
-        solicitud3.getFecha();
-        solicitud3.getQuioscoPersonal().getId();
+        solicitud3.setVacacion(vacacion);
         //solicitudRepository.save(solicitud2);
-        solicitudRepository.save(solicitud2);
+        solicitudVacacionRepository.save(solicitud2);
 
-        List<Solicitud> solicituds = new LinkedList<>();
+        List<SolicitudVacacion> solicituds = new LinkedList<>();
         solicituds.add(solicitud1);
         solicituds.add(solicitud2);
         solicituds.add(solicitud3);
 
-        List<Solicitud> solicitudsExpec = new LinkedList<>();
+        List<SolicitudVacacion> solicitudsExpec = new LinkedList<>();
         solicitudsExpec.add(solicitud1);
         solicitudsExpec.add(solicitud2);
 
-        given(solicitudRepository.findAll()).willReturn(solicituds);
+        given(solicitudVacacionRepository.findAll()).willReturn(solicituds);
 
-        List<Solicitud> givenFrom =  solicitudServiceImp.encontrarSolicitudesPorEstadoTrue();
+        List<SolicitudVacacion> givenFrom =  solicitudServiceImp.encontrarSolicitudesPorEstadoTrue();
 
         assertEquals(solicitudsExpec, givenFrom);
         //verify(solicitudRepository).findByUsuario(user1);
@@ -354,7 +337,7 @@ class SolicitudServiceImpTest {
     @Test
     void findSolicitudByEstadoTrue() {
 
-        when(solicitudRepository.findAllByEstadoTrue()).thenReturn(solicitud);
+        //when(solicitudVacacionRepository.findBy()).thenReturn(solicitud);
         Solicitud returned = solicitudServiceImp.findSolicitudByEstadoTrue(solicitud);
         assertThat(returned.isEstado()).isSameAs(true);
     }

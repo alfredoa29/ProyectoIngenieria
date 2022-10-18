@@ -5,18 +5,22 @@
             <span th:if="${#authorization.expression('hasRole(''ROLE_USER'')')}" >
             <th scope="col">#</th>
             <th scope="col">Fecha</th>
-            <th scope="col">Tipo</th>
             <th scope="col">Estado</th>
-            <th scope="col">Quiosco</th>
+             <th scope="col">Solicitante</th>
+            <th scope="col">Num Dias</th>
+            <th scope="col">Fecha Inicio</th>
+            <th scope="col">Fecha Final</th>
             </span>
 
             <span th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}" >
 
-            | <th scope="col">#</th>
+            <th scope="col">#</th>
             <th scope="col">Fecha</th>
-            <th scope="col">Tipo</th>
             <th scope="col">Estado</th>
-            <th scope="col">Quiosco</th>
+             <th scope="col">Solicitante</th>
+            <th scope="col">Num Dias</th>
+            <th scope="col">Fecha Inicio</th>
+            <th scope="col">Fecha Final</th>
               <th scope="col">Aceptacion</th>
                 </span>
 
@@ -28,12 +32,13 @@
             <td th:text="${solicitud.id}"></td>
 
             <td th:text="${solicitud.fecha}"></td>
-            <td th:text="${solicitud.quioscoPersonal.nombreSolicitud}"></td>
-            <td th:text="${solicitud.quioscoPersonal.numDias}"></td>
             <td th:text="${solicitud.estado}"></td>
-            <td>
-                <a href="#" ><i> ver solicitud</i></a>
-            </td>
+            <td th:text="${solicitud.usuario.firstName}"></td>
+            <td th:text="${solicitud.vacacion.numDias}"></td>
+            <td th:text="${solicitud.vacacion.fechaInicio}"></td>
+            <td th:text="${solicitud.vacacion.fechaFinal}"></td>
+
+
 
         </tr>
              </span>
@@ -43,11 +48,13 @@
             <td th:text="${solicitud.id}"></td>
 
             <td th:text="${solicitud.fecha}"></td>
-            <td th:text="${solicitud.quioscoPersonal}"></td>
             <td th:text="${solicitud.estado}"></td>
-            <td>
-                <a href="#" ><i> ver solicitud</i></a>
-            </td>
+            <td th:text="${solicitud.usuario.firstName}" ></td>
+            <td th:text="${solicitud.vacacion.numDias}"></td>
+            <td th:text="${solicitud.vacacion.fechaInicio}"></td>
+            <td th:text="${solicitud.vacacion.fechaFinal}"></td>
+
+
 
               <td>
                 <span th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">

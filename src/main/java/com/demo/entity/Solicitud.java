@@ -8,44 +8,47 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
-@Entity
+@MappedSuperclass
 public class Solicitud implements Serializable {
 
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "native")
     @GenericGenerator(name="native", strategy = "native")
-    private Long id;
+    protected Long id;
 
 
 
    // @JoinColumn(name = "usuario_id", nullable = false)
-   @ManyToOne(fetch= FetchType.LAZY)
+   @ManyToOne(fetch= FetchType.LAZY, cascade=CascadeType.ALL)
     @JoinColumn(name = "usuario_id")
-    private User usuario;
+   protected User usuario;
 
     @Column
-    String fecha;
+    protected String fecha;
 
     @Column
-    boolean estado ;
+    protected boolean estado ;
 
-    @ManyToOne(fetch= FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "quiosco_id")
-    private QuioscoPersonal quioscoPersonal;
-
-
-
-    public Solicitud() {
+    public Long getId() {
+        return id;
     }
 
-    public Solicitud(Long id, User usuario, String fecha, boolean estado) {
-        this.id = id;
-        this.usuario = usuario;
-        this.fecha = fecha;
-        this.estado = estado;
+    public Solicitud() {
+        Date date = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+        String strDate = formatter.format(date);
+        formatter = new SimpleDateFormat("dd MMMM yyyy");
+        strDate = formatter.format(date);
+        this.fecha = strDate;
 
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public User getUsuario() {
@@ -71,34 +74,4 @@ public class Solicitud implements Serializable {
     public void setEstado(boolean estado) {
         this.estado = estado;
     }
-
-
-    public QuioscoPersonal getQuioscoPersonal() {
-        return quioscoPersonal;
-    }
-
-    public void setQuioscoPersonal(QuioscoPersonal quioscoPersonal) {
-        this.quioscoPersonal = quioscoPersonal;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    @Override
-    public String toString() {
-        return "Solicitud{" +
-                "id=" + id +
-                ", Usuario=" + usuario +
-                ", fecha='" + fecha + '\'' +
-                ", estado=" + estado +
-                '}';
-    }
-
-
-
 }

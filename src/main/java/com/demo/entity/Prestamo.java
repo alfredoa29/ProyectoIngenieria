@@ -1,9 +1,10 @@
 package com.demo.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
-@Entity
-public class Prestamo extends QuioscoPersonal{
+
+public class Prestamo implements Serializable {
 
 
     @Column
@@ -14,6 +15,9 @@ public class Prestamo extends QuioscoPersonal{
 
     @Column
     private  String plazo;
+    @Id
+    @GeneratedValue
+    private Long id;
 
     public String getImporte() {
         return importe;
@@ -37,5 +41,13 @@ public class Prestamo extends QuioscoPersonal{
 
     public void setPlazo(String plazo) {
         this.plazo = plazo;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getId() {
+        return id;
     }
 }
