@@ -342,7 +342,5 @@ class SolicitudVacacionServiceImpTest {
         assertThat(returned.isEstado()).isSameAs(true);
     }
 
-    @Test
-    void encontrarSolicitudesPorEstadoFalse() {
-    }
+
 }

@@ -105,7 +105,7 @@ public class SolicitudVacacionImp implements SolicitudService<SolicitudVacacion,
     public void rechazarSolicitud(Long idSoli) throws Exception {
         try {
             SolicitudVacacion solicitud = solicitudVacacionRepository.findById(idSoli).get();
-            solicitud.setEstado(true);
+            solicitud.setEstado(false);
             solicitudVacacionRepository.save(solicitud);
         }catch (Exception e){
             throw new Exception("Problema al aceptar la solicitud");

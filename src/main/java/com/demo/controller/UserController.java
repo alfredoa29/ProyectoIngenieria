@@ -1,7 +1,6 @@
 package com.demo.controller;
 
 import com.demo.dto.ChangePasswordForm;
-import com.demo.entity.Solicitud;
 import com.demo.entity.SolicitudVacacion;
 import com.demo.entity.User;
 import com.demo.entity.Vacacion;
@@ -50,7 +49,16 @@ public class UserController {
         return "index";
     }
 
+   @GetMapping({ "/principal"})
+    public String principal(Model model){
+        try {
 
+            return "principal";
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+    }
 
     @GetMapping("/userForm")
     public String userForm(Model model) {
@@ -256,8 +264,8 @@ public class UserController {
           return "redirect:/vacacionForm";
     }
 
-    @GetMapping( "/error")
+    @GetMapping( "/prueba")
     public String error(){
-        return "error";
+        return "principal";
     }
 }

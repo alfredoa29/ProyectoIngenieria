@@ -1,0 +1,51 @@
+package com.demo.entity;
+
+import org.assertj.core.api.LocalDateAssert;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
+
+class FechaTest {
+
+    @Autowired
+    Fecha fecha;
+
+    @BeforeEach
+    void setUp() {
+          fecha = new Fecha();
+    }
+
+    @Test
+    void calcularFecha() {
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
+        String date = "25/10/2022";
+
+        //convert String to LocalDate
+        LocalDate expected = LocalDate.parse(date, formatter);
+        LocalDate actual = fecha.calcularFecha("21/10/2022", 2);
+        // deberia devolver que la fecha esperaad es 25/10/2022
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void calcularFechaReturnaError() {
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
+        String date = "23/10/2022";
+
+        //convert String to LocalDate
+        LocalDate expected = LocalDate.parse(date, formatter);
+
+
+        Throwable exception = assertThrows(RuntimeException.class, () -> fecha.calcularFecha(date, 2));
+        assertEquals("Debe de escoger un dia laborable", exception.getMessage());
+    }
+}
