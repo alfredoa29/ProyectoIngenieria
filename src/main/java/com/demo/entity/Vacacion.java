@@ -1,15 +1,17 @@
 package com.demo.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
 
 @Entity
 public class Vacacion implements Serializable {
 
-
+    @NotBlank(message ="Debe de escoger un dia")
     @Column
     Integer numDias;
+    @NotBlank(message ="Debe de escoger  una fecha")
     @Column
     String fechaInicio;
     @Column

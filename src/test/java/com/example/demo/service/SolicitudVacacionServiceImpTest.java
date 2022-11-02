@@ -65,7 +65,7 @@ class SolicitudVacacionServiceImpTest {
         solicitud = new SolicitudVacacion();
         solicitud.setId(1L);
         solicitud.setUsuario(user);
-        solicitud.setEstado(true);
+        solicitud.setEstado("En espera");
         solicitud.setFecha("10-10-22");
         solicitud.setVacacion(vacacion);
 
@@ -90,7 +90,7 @@ class SolicitudVacacionServiceImpTest {
         user1.setId(444444);
         user1.setFirstName("JUAN");
         user1.setLastName("Guerrrro");
-        user1.setEmail("alfredo.guerrero@gmail.com");
+        user1.setEmail("alfredo.guerrero.gonzalez@est.una.ac.cr");
         user1.setUsername("4444444");
         user1.setPassword("alfredo1234");
         user1.setConfirmPassword("alfredo1234");
@@ -99,7 +99,7 @@ class SolicitudVacacionServiceImpTest {
         SolicitudVacacion solicitud3 = new SolicitudVacacion();
         solicitud3.setId(1L);
         solicitud3.setUsuario(user1);
-        solicitud3.setEstado(false);
+        solicitud3.setEstado("en Espera");
         solicitud3.setFecha("11-11-22");
         solicitud3.setVacacion(vacacion);
 
@@ -158,21 +158,21 @@ class SolicitudVacacionServiceImpTest {
         SolicitudVacacion solicitud1 = new SolicitudVacacion();
         solicitud1.setId(11L);
         solicitud1.setUsuario(user);
-        solicitud1.setEstado(false);
+        solicitud1.setEstado("En espera");
         solicitud1.setFecha("10-10-22");
         solicitud1.setVacacion(vacacion);
 
         SolicitudVacacion solicitud2 = new SolicitudVacacion();
         solicitud2.setId(2L);
         solicitud2.setUsuario(user1);
-        solicitud2.setEstado(false);
+        solicitud2.setEstado("En espera");
         solicitud2.setFecha("10-10-22");
         solicitud1.setVacacion(vacacion);
 
         SolicitudVacacion solicitud3 = new SolicitudVacacion();
         solicitud3.setId(3L);
         solicitud3.setUsuario(user);
-        solicitud3.setEstado(false);
+        solicitud2.setEstado("En espera");
         solicitud3.setFecha("11-11-22");
         solicitud3.setVacacion(vacacion2);
 
@@ -236,7 +236,7 @@ class SolicitudVacacionServiceImpTest {
         SolicitudVacacion solicitud2 = new SolicitudVacacion();
         solicitud2.setId(2L);
         solicitud2.setUsuario(user1);
-        solicitud2.setEstado(false);
+        solicitud2.setEstado("En espera");
         solicitud2.setFecha("10-10-22");
         solicitud2.setVacacion(vacacion);
 
@@ -244,7 +244,7 @@ class SolicitudVacacionServiceImpTest {
         SolicitudVacacion solicitud3 = new SolicitudVacacion();
         solicitud3.setId(3L);
         solicitud3.setUsuario(user1);
-        solicitud3.setEstado(false);
+        solicitud3.setEstado("En espera");
         solicitud3.setFecha("11-11-22");
         solicitud3.setVacacion(vacacion);
 
@@ -296,21 +296,21 @@ class SolicitudVacacionServiceImpTest {
         SolicitudVacacion solicitud1 = new SolicitudVacacion();
         solicitud1.setId(11L);
         solicitud1.setUsuario(user);
-        solicitud1.setEstado(true);
+        solicitud1.setEstado("En espera");
         solicitud1.setFecha("10-10-22");
         solicitud1.setVacacion(vacacion);
 
         SolicitudVacacion solicitud2 = new SolicitudVacacion();
         solicitud2.setId(2L);
         solicitud2.setUsuario(user1);
-        solicitud2.setEstado(true);
+        solicitud2.setEstado("En espera");
         solicitud2.setFecha("10-10-22");
         solicitud2.setVacacion(vacacion);
 
         SolicitudVacacion solicitud3 = new SolicitudVacacion();
         solicitud3.setId(3L);
         solicitud3.setUsuario(user1);
-        solicitud3.setEstado(false);
+        solicitud3.setEstado("En espera");
         solicitud3.setFecha("11-11-22");
         solicitud3.setVacacion(vacacion);
         //solicitudRepository.save(solicitud2);

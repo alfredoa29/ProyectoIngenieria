@@ -1,10 +1,11 @@
 package com.demo.service;
 
 import com.demo.entity.User;
+import com.demo.entity.Vacacion;
 
 import java.util.List;
 
-public interface SolicitudService<T,V> {
+public interface ISolicitudService<T,V> {
 
     public T encontrarSolicitudPorId(Long id);
     public List<T> encontrarSolicitudesPorUsuario(User user);

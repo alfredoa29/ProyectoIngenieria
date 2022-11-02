@@ -2,12 +2,13 @@ package com.demo.controller;
 
 import com.demo.dto.ChangePasswordForm;
 import com.demo.entity.SolicitudVacacion;
+import com.demo.service.Fecha;
 import com.demo.entity.User;
 import com.demo.entity.Vacacion;
 import com.demo.repository.RoleRepository;
 import com.demo.service.RoleService;
 
-import com.demo.service.SolicitudService;
+import com.demo.service.ISolicitudService;
 import com.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -39,9 +40,7 @@ public class UserController {
     RoleRepository roleRepository;
 
     @Autowired
-    SolicitudService solicitudVacacionImp;
-
-
+    ISolicitudService solicitudVacacionImp;
 
 
     @GetMapping({"/", "/login"})
@@ -49,11 +48,25 @@ public class UserController {
         return "index";
     }
 
-   @GetMapping({ "/principal"})
+
+    @GetMapping("/usuario")
+    public String redirectUsuarioMoule(ModelMap model){
+        return "redirect:/userForm";
+
+    }
+
+    @GetMapping("/vacaciones")
+    public String redirectVacacionModule(ModelMap model){
+        return "redirect:/vacacionForm";
+
+    }
+
+
+    @GetMapping({ "/principal"})
     public String principal(Model model){
         try {
 
-            return "principal";
+            return "header";
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -174,13 +187,13 @@ public class UserController {
         //retorna variable de arriba
         return userForm(model);
     }
-        //Response ayuda a manejar una respuesta adecuada http"
-        //Valid para validarr el formulario
-        //RequestBody es objeto que se esta pasando como request asincrono
+    //Response ayuda a manejar una respuesta adecuada http"
+    //Valid para validarr el formulario
+    //RequestBody es objeto que se esta pasando como request asincrono
     @PostMapping("/editUser/changePassword")
     public ResponseEntity postEditUserChangePassword(@Valid @RequestBody ChangePasswordForm form, Errors errors){
         try {
-        //If error, just return a 400 bad request, along with the error message
+            //If error, just return a 400 bad request, along with the error message
             if (errors.hasErrors()){
                 String result = errors.getAllErrors()
                         .stream().map(x -> x.getDefaultMessage())
@@ -199,7 +212,7 @@ public class UserController {
 
 
 
-   @GetMapping("/vacacionForm")
+    @GetMapping("/vacacionForm")
     public String vacacionForm(Model model) {
         try {
             User loggedUser = userService.getLoggedUser();
@@ -229,18 +242,19 @@ public class UserController {
 
                 loggedUser = userService.getLoggedUser();
                 SolicitudVacacion solicitud = new SolicitudVacacion();
-                solicitud.setEstado(false);
+                solicitud.setEstado("En espera");
                 solicitud.setUsuario(loggedUser);
                 solicitud.setVacacion(vacacion);
                 solicitudVacacionImp.crearSolicitudPersonal(solicitud);
                 model.addAttribute("vacacionForm", new Vacacion() );
                 model.addAttribute("vacacionList", "active");
+                model.addAttribute("vacacionList", solicitudVacacionImp.encontrarSolicitudesPorUsuario(loggedUser));
 
             } catch (Exception e) {
                 model.addAttribute("formErrorMessage",e.getMessage());
                 model.addAttribute("vacacionForm", vacacion);
                 model.addAttribute("vacaFormTab","active");
-
+                model.addAttribute("vacacionList", solicitudVacacionImp.encontrarSolicitudesPorUsuario(loggedUser));
 
 
             }
@@ -261,11 +275,8 @@ public class UserController {
             model.addAttribute("listErrorMessage", e.getMessage());
         }
 
-          return "redirect:/vacacionForm";
+        return "redirect:/vacacionForm";
     }
 
-    @GetMapping( "/prueba")
-    public String error(){
-        return "principal";
-    }
+
 }

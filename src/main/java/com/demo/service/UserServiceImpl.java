@@ -31,7 +31,7 @@ public class UserServiceImpl implements UserService {
     RoleRepository roleRepository; //QUITAR DESPUES
 
     @Autowired
-    SolicitudService solicitudService; //quitar
+    ISolicitudService solicitudService; //quitar
     @Override
     public Iterable<User> getAllUsers() {
 

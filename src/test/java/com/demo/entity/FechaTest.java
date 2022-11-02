@@ -1,6 +1,6 @@
 package com.demo.entity;
 
-import org.assertj.core.api.LocalDateAssert;
+import com.demo.service.Fecha;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +10,6 @@ import java.time.format.DateTimeFormatter;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
 
 class FechaTest {
 
@@ -29,8 +28,9 @@ class FechaTest {
         String date = "25/10/2022";
 
         //convert String to LocalDate
-        LocalDate expected = LocalDate.parse(date, formatter);
-        LocalDate actual = fecha.calcularFecha("21/10/2022", 2);
+       // LocalDate expected = LocalDate.parse(date, formatter);
+        String expected = date;
+        String actual = fecha.calcularFecha("21/10/2022", 2);
         // deberia devolver que la fecha esperaad es 25/10/2022
         assertEquals(expected, actual);
     }

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Modal ver vacaciones</title>
+</head>
+<body>
+
+<div class="vacation">
+
+    <form class="form" role="form" autocomplete="off"  th:object="${vacacionForm}"  method="post">
+        <!--Es necesario para poder pasar la validacion del Model-->
+
+
+        <!--quita el comentario si quieres mantener la validacion @NotBlank del campo confirmPassword
+             <input class="form-control" type=hidden name="confirmPassword" value="xxxx" th:if="${editMode}">
+         -->
+
+
+        <div class="form-group row">
+            <label class="col-lg-3 col-form-label form-control-label"> Dias a Disfrutar:</label>
+            <div class="col-lg-9">
+                <input class="form-control" type="number" th:value="${vacacionForm.numDias}" th:disabled="${disableFields}" min="1" max="15">
+                <div class="alert-danger" th:if="${#fields.hasErrors('numDias')}" th:errors="*{numDias}">Name Error</div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-lg-3 col-form-label form-control-label">Fecha Desde:</label>
+            <div class="col-lg-9">
+                <input class="form-control" type="date" th:value="${vacacionForm.fechaInicio}" th:disabled="${disableFields}">
+                <div class="alert-danger" th:if="${#fields.hasErrors('fechaInicio')}" th:errors="*{fechaInicio}">Name Error</div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-lg-3 col-form-label form-control-label">Fecha Hasta:</label>
+
+
+
+            <div class="col-lg-9">
+                <input class="form-control" type="text" th:value="${vacacionForm.fechaFinal}" th:disabled="${disableFields}">
+                <div class="alert-danger" th:if="${#fields.hasErrors('fechaFinal')}" th:errors="*{fechaFinal}">Name Error</div>
+            </div>
+        </div>
+
+
+        <div class="form-group row">
+            <div class="col-lg-12 text-center">
+
+                <a class="btn btn-secondary" th:href="@{'/userForm/cancel'}"> Cancel</a>
+                <button type="button" onClick="crearSolicitud()" class="btn btn-primary">Crear Solicitud</button>
+            </div>
+        </div>
+
+
+    </form>
+    <div class="alert alert-danger text-center" th:if="${listErrorMessage}" th:text="${formErrorMessage}">Error MEssage</div>
+    <div class="alert alert-success text-center d-none"  id="formSuccess" th:if="${editMode}" >Success MEssage</div>
+    </form>
+</div>
+
+</body>
+
+</html>

@@ -5,6 +5,7 @@
     <title>Title</title>
 </head>
 <body>
+
 <div class="vacation">
 
     <form class="form" role="form" autocomplete="off"  th:object="${vacacionForm}"  method="post">
@@ -17,22 +18,22 @@
 
 
         <div class="form-group row">
-            <label class="col-lg-3 col-form-label form-control-label"> Numero de dias</label>
-            <div class="col-lg-9">
+            <label class="col-lg-3 col-form-label form-control-label"> Numero de dias a disfrutar:</label>
+            <div class="col-lg-2">
                 <input class="form-control" type="number" th:field="${vacacionForm.numDias}" th:disabled="${disableFields}" min="1" max="15">
                 <div class="alert-danger" th:if="${#fields.hasErrors('numDias')}" th:errors="*{numDias}">Name Error</div>
             </div>
         </div>
         <div class="form-group row">
-            <label class="col-lg-3 col-form-label form-control-label">Fecha de Inicio</label>
-            <div class="col-lg-9">
+            <label class="col-lg-3 col-form-label form-control-label">Fecha desde:</label>
+            <div class="col-lg-3">
                 <input class="form-control" type="date" th:field="${vacacionForm.fechaInicio}" th:disabled="${disableFields}">
                 <div class="alert-danger" th:if="${#fields.hasErrors('fechaInicio')}" th:errors="*{fechaInicio}">Name Error</div>
             </div>
         </div>
         <div class="form-group row">
-            <label class="col-lg-3 col-form-label form-control-label">Fecha final</label>
-            <div class="col-lg-9">
+            <label class="col-lg-3 col-form-label form-control-label">Fecha hasta: </label>
+            <div class="col-lg-3">
                 <input class="form-control" type="date" th:field="${vacacionForm.fechaFinal}" th:disabled="${disableFields}">
                 <div class="alert-danger" th:if="${#fields.hasErrors('fechaFinal')}" th:errors="*{fechaFinal}">Name Error</div>
             </div>
@@ -47,7 +48,8 @@
             </div>
         </div>
 
-
+        <div class="alert alert-danger text-center" th:if="${listErrorMessage}" th:text="${formErrorMessage}">Error MEssage</div>
+        <div class="alert alert-success text-center d-none"  id="formSuccess" th:if="${editMode}" >Success MEssage</div>
     </form>
     </form>
 </div>

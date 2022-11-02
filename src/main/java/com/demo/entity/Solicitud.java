@@ -31,7 +31,7 @@ public class Solicitud implements Serializable {
     protected String fecha;
 
     @Column
-    protected boolean estado ;
+    protected String estado ;
 
     public Long getId() {
         return id;
@@ -67,11 +67,11 @@ public class Solicitud implements Serializable {
         this.fecha = fecha;
     }
 
-    public boolean isEstado() {
+    public String getEstado() {
         return estado;
     }
 
-    public void setEstado(boolean estado) {
+    public void setEstado(String estado) {
         this.estado = estado;
     }
 }
