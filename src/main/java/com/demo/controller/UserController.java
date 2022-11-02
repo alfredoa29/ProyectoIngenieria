@@ -278,5 +278,17 @@ public class UserController {
         return "redirect:/vacacionForm";
     }
 
+    @GetMapping("/vacacionForm/rechazar/{id}")
+    public String rechazarSolicitud(Model model, @PathVariable(name ="id") Long id){
+        try {
+            solicitudVacacionImp.rechazarSolicitud(id);
+
+
+        }catch (Exception e){
+            model.addAttribute("listErrorMessage", e.getMessage());
+        }
+
+        return "redirect:/vacacionForm";
+    }
 
 }

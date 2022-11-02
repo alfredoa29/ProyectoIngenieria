@@ -61,7 +61,7 @@
                 <a href="#" th:href ="@{'/vacacionForm/aceptar/'+${solicitud.id}}" ><i class="fas fa-check-circle"></i></a>
                 </span>
                   <span th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}" >
-                    | <a href="#" ><i class="fas fa-window-close"></i></a>
+                    | <a href="#" th:href="@{'/vacacionForm/rechazar/'+${solicitud.id}}" ><i class="fas fa-window-close"></i></a>
                 </span>
 
               </td>

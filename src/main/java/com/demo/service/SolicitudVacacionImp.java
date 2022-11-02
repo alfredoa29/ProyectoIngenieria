@@ -124,7 +124,7 @@ public class SolicitudVacacionImp implements ISolicitudService<SolicitudVacacion
             editorNotication.notificacarCambioDeEstado("actualizada",solicitud.getUsuario().getEmail(), "hola", solicitud.getUsuario().getId(),
                     solicitud.getId(), "rechazada");
         }catch (Exception e){
-            throw new Exception("Problema al aceptar la solicitud");
+            throw new Exception("Problema al rechazar la solicitud");
         }
     }
 
