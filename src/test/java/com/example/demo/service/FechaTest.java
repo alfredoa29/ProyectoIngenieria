@@ -1,4 +1,4 @@
-package com.demo.entity;
+package com.example.demo.service;
 
 import com.demo.service.Fecha;
 import org.junit.jupiter.api.BeforeEach;

@@ -65,23 +65,5 @@ public class NotificacionCorreoElectronico  {
                 '}';
     }
 
-    /*    @Autowired
-    private JavaMailSender mailSender;
 
-    @Override
-    public void enviarNotificacion(String tipoEvento, Long usuarioId, Long solicitudId) {
-
-        String mensajeCompleto = "Hola " + usuarioId + "su solicitud #: " + solicitudId + "ha sido " + tipoEvento;
-
-        sendEmail("","Notificacion" + tipoEvento, mensajeCompleto);
-
-    }
-
-    public void sendEmail(String toEmail,String  subject, String body){
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom("");
-        message.setTo(toEmail);
-        message.setText(body);
-        message.setSubject(subject);
-    }*/
 }

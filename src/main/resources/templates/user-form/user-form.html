@@ -79,7 +79,7 @@
                      value="Save Changes"  th:value="${editMode}?'Save User':'Create User'">
           </div>
       </div>
-    <div class="alert alert-danger text-center" th:if="${listErrorMessage}" th:text="${formErrorMessage}">Error MEssage</div>
+    <div class="alert alert-danger text-center" th:if="${listErrorMessage}" th:text="${listErrorMessage}">Error MEssage</div>
     <div class="alert alert-success text-center d-none"  id="formSuccess" th:if="${editMode}" >Success MEssage</div>
 </form>
   </form>

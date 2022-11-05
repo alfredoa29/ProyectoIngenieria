@@ -46,7 +46,7 @@
 <div id="header"></div>
 
 <div class="container">
-    <div class="mx-auto col-sm-8 main-section" id="myTab" role="tablist">
+    <div class="mx-auto col-sm-50 main-section" id="myTab" role="tablist">
         <ul class="nav nav-tabs justify-content-end">
             <li class="nav-item">
                 <a class="nav-link" th:classappend="${vacaLisTab}"  id="vacalist-tab" data-toggle="tab" href="#list" role="tab" aria-controls="list" aria-selected="false">Lista Solicitudes de Vacaciones</a>
@@ -59,7 +59,7 @@
             </li>
         </ul>
         <div class="tab-content" id="myTabContent">
-            <div class="tab-pane fade show active"  th:classappend=" ${vacaLisTab}" id="list" role="tabpanel" aria-labelledby="list-tab">
+            <div class="tab-pane fade show "  th:classappend=" ${vacaLisTab}" id="list" role="tabpanel" aria-labelledby="list-tab">
                 <div class="card">
                     <div class="card-header">
                         <h4>Lista de Solicitudes de Vacaciones</h4>
@@ -71,7 +71,7 @@
 
                 </div>
         </div>
-            <div class="tab-pane fade"  th:classappend=" ${vacaFormTab}" id="form" role="tabpanel" aria-labelledby="form-tab">
+            <div class="tab-pane fade show "  th:classappend=" ${vacaFormTab}" id="form" role="tabpanel" aria-labelledby="form-tab">
                 <div class="card">
                     <div class="card-header">
                         <h4>Solicitar vacaciones</h4>

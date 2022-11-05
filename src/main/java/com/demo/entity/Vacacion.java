@@ -2,16 +2,17 @@ package com.demo.entity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 
 @Entity
 public class Vacacion implements Serializable {
 
-    @NotBlank(message ="Debe de escoger un dia")
+     @NotNull(message ="Debe de escoger un dia")
     @Column
     Integer numDias;
-    @NotBlank(message ="Debe de escoger  una fecha")
+    @NotNull(message ="Debe de escoger  una fecha")
     @Column
     String fechaInicio;
     @Column

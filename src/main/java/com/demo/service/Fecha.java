@@ -1,6 +1,5 @@
 package com.demo.service;
 
-import javax.persistence.Entity;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -50,7 +49,7 @@ public class Fecha {
         boolean fechaBoolean = true;
         if (givenDate.getDayOfWeek().equals(dayOfWeek)){
             fechaBoolean = false;
-            throw new RuntimeException(" La fecha es domingo");
+            throw new RuntimeException(" ERROR! Debe de escoger un dia  laborable");
 
 
 
@@ -66,7 +65,7 @@ public class Fecha {
         if (dias>15){
 
             diasBoolean = false;
-            throw new RuntimeException(" Numero de dia no valido");
+            throw new RuntimeException(" ERROR! Numero de dia no valido");
         }
 
 

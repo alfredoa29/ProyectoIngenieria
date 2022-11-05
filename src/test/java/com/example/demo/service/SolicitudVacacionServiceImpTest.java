@@ -65,7 +65,7 @@ class SolicitudVacacionServiceImpTest {
         solicitud = new SolicitudVacacion();
         solicitud.setId(1L);
         solicitud.setUsuario(user);
-        solicitud.setEstado("En espera");
+        solicitud.setEstado("Aceptado");
         solicitud.setFecha("10-10-22");
         solicitud.setVacacion(vacacion);
 
@@ -296,21 +296,21 @@ class SolicitudVacacionServiceImpTest {
         SolicitudVacacion solicitud1 = new SolicitudVacacion();
         solicitud1.setId(11L);
         solicitud1.setUsuario(user);
-        solicitud1.setEstado("En espera");
+        solicitud1.setEstado("Aceptado");
         solicitud1.setFecha("10-10-22");
         solicitud1.setVacacion(vacacion);
 
         SolicitudVacacion solicitud2 = new SolicitudVacacion();
         solicitud2.setId(2L);
         solicitud2.setUsuario(user1);
-        solicitud2.setEstado("En espera");
+        solicitud2.setEstado("Aceptado");
         solicitud2.setFecha("10-10-22");
         solicitud2.setVacacion(vacacion);
 
         SolicitudVacacion solicitud3 = new SolicitudVacacion();
         solicitud3.setId(3L);
         solicitud3.setUsuario(user1);
-        solicitud3.setEstado("En espera");
+        solicitud3.setEstado("Aceptado");
         solicitud3.setFecha("11-11-22");
         solicitud3.setVacacion(vacacion);
         //solicitudRepository.save(solicitud2);
@@ -324,6 +324,7 @@ class SolicitudVacacionServiceImpTest {
         List<SolicitudVacacion> solicitudsExpec = new LinkedList<>();
         solicitudsExpec.add(solicitud1);
         solicitudsExpec.add(solicitud2);
+        solicitudsExpec.add(solicitud3);
 
         given(solicitudVacacionRepository.findAll()).willReturn(solicituds);
 
@@ -339,7 +340,7 @@ class SolicitudVacacionServiceImpTest {
 
         //when(solicitudVacacionRepository.findBy()).thenReturn(solicitud);
         Solicitud returned = solicitudServiceImp.findSolicitudByEstadoTrue(solicitud);
-        assertThat(returned.isEstado()).isSameAs(true);
+        assertThat(returned.getEstado()).isSameAs("Aceptado");
     }
 
 

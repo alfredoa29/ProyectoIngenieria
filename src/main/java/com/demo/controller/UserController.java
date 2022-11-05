@@ -21,6 +21,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.stream.Collectors;
 
@@ -65,7 +66,8 @@ public class UserController {
     @GetMapping({ "/principal"})
     public String principal(Model model){
         try {
-
+            User loggedUser = userService.getLoggedUser();
+            model.addAttribute("usuario", loggedUser);
             return "header";
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -175,6 +177,12 @@ public class UserController {
         return "redirect:/userForm";
     }
 
+    @GetMapping("/vacacionForm/cancel")
+    public String cancelEnviarSolicitudVacacion(ModelMap model){
+
+        return "redirect:/vacacionForm";
+    }
+
     @GetMapping("/deleteUser/{id}")
     public String deleteUser(Model model, @PathVariable(name ="id") Long id){
         try {
@@ -227,6 +235,132 @@ public class UserController {
         }
     }
 
+
+
+    @PostMapping("/vacacionForm")
+    public String postVacacionForm(@Valid @ModelAttribute("vacacionForm") Vacacion vacacion, BindingResult result, ModelMap model){
+
+
+        Fecha fecha = new Fecha();
+        User loggedUser =  new User();
+
+        try {
+            loggedUser = userService.getLoggedUser();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        if(result.hasErrors()){
+            model.addAttribute("vacacionForm", vacacion);
+            model.addAttribute("vacaFormTab", "active");
+            model.addAttribute("vacacionList", solicitudVacacionImp.encontrarSolicitudesPorUsuario(loggedUser));
+            //model.addAttribute("editMode", "true");
+
+        }else {
+            try {
+
+                if(fecha.validarFechas(vacacion.getFechaInicio())== true || fecha.validarDias(vacacion.getNumDias())){
+                    vacacion.setFechaFinal(fecha.calcularFecha(vacacion.getFechaInicio(),vacacion.getNumDias()));
+                    model.addAttribute("vacacionForm", vacacion);
+                    model.addAttribute("vacaFormTab","active");
+                    model.addAttribute("vacacionList", solicitudVacacionImp.encontrarSolicitudesPorUsuario(loggedUser));
+
+                    return  "vacacion-form/vacacion-view-despues-calcular";
+                }
+
+
+
+            }catch (Exception e) {
+                model.addAttribute("formErrorMessage",e.getMessage());
+                model.addAttribute("vacacionForm", vacacion);
+                model.addAttribute("vacaFormTab","active");
+                model.addAttribute("vacacionList", solicitudVacacionImp.encontrarSolicitudesPorUsuario(loggedUser));
+            }
+
+            model.addAttribute("vacacionList", solicitudVacacionImp.encontrarSolicitudesPorUsuario(loggedUser));
+        }
+        return "vacacion-form/vacacion-view";
+    }
+
+    @PostMapping("/vacacionForm/crearSolicitud")
+    public ResponseEntity vacacionCrearSolicitudVacacion(@Valid @RequestBody Vacacion vacacion, Errors errors){
+
+
+        User loggedUser =  new User();
+
+        try {
+            loggedUser = userService.getLoggedUser();
+
+            //If error, just return a 400 bad request, along with the error message
+            if (errors.hasErrors()){
+                String result = errors.getAllErrors()
+                        .stream().map(x -> x.getDefaultMessage())
+                        .collect(Collectors.joining(""));
+                throw new Exception(result);
+            }
+            SolicitudVacacion solicitudVacacion = new SolicitudVacacion();
+            solicitudVacacion.setVacacion(vacacion);
+            solicitudVacacion.setUsuario(loggedUser);
+            solicitudVacacion.setEstado("En espera");
+            solicitudVacacionImp.crearSolicitudPersonal(solicitudVacacion);
+
+        } catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+
+        return ResponseEntity.ok("success");
+    }
+
+
+  /*  @PostMapping("/vacacionForm/crearSolicitud")
+    public String vacacionCrearSolicitudVacacion(@Valid @ModelAttribute("vacacionForm") Vacacion vacacion, BindingResult result, ModelMap model, HttpServletRequest request){
+
+
+        Fecha fecha = new Fecha();
+        User loggedUser =  new User();
+
+        try {
+            loggedUser = userService.getLoggedUser();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        if(result.hasErrors()){
+            model.addAttribute("vacacionForm", vacacion);
+            model.addAttribute("vacaFormTab", "active");
+            model.addAttribute("vacacionList", solicitudVacacionImp.encontrarSolicitudesPorUsuario(loggedUser));
+            //model.addAttribute("editMode", "true");
+
+        }else {
+            try {
+                SolicitudVacacion solicitudVacacion = new SolicitudVacacion();
+                solicitudVacacion.setVacacion(vacacion);
+                solicitudVacacion.setUsuario(loggedUser);
+                solicitudVacacion.setEstado("En espera");
+                solicitudVacacionImp.crearSolicitudPersonal(solicitudVacacion);
+                    request.getSession().setAttribute("successMessage", "Solicitud creada correctamente!");
+                    model.addAttribute("vacacionForm", vacacion);
+                    model.addAttribute("vacaFormTab","active");
+                    model.addAttribute("vacacionList", solicitudVacacionImp.encontrarSolicitudesPorUsuario(loggedUser));
+
+                    return  "vacacion-form/vacacion-view-enviar-solicitud";
+
+
+
+
+            }catch (Exception e) {
+                model.addAttribute("formErrorMessage",e.getMessage());
+                model.addAttribute("vacacionForm", vacacion);
+                model.addAttribute("vacaFormTab","active");
+                model.addAttribute("vacacionList", solicitudVacacionImp.encontrarSolicitudesPorUsuario(loggedUser));
+            }
+
+            model.addAttribute("vacacionList", solicitudVacacionImp.encontrarSolicitudesPorUsuario(loggedUser));
+        }
+        return "vacacion-form/vacacion-view";
+    }*/
+
+/*
     @PostMapping("/vacacionForm")
     public String postVacacionForm(@Valid @ModelAttribute("vacacionForm") Vacacion vacacion, BindingResult result, ModelMap model){
 
@@ -263,6 +397,7 @@ public class UserController {
         }
         return "vacacion-form/vacacion-view";
     }
+*/
 
 
     @GetMapping("/vacacionForm/aceptar/{id}")

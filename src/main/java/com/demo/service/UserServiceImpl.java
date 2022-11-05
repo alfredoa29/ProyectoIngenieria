@@ -120,24 +120,6 @@ public class UserServiceImpl implements UserService {
          repository.deleteUserByUsername(username);
     }
 
-    //creo que no funk bien
-/*    public boolean isLoggedUserADMIN() {
-
-        //se coge el usuario de la sesion autenticado y se verifica si es admin
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        UserDetails loggedUser = null;
-        //si es usuario principal es instancia de User details se le hace cast
-        if (principal instanceof UserDetails) {
-            loggedUser = (UserDetails) principal;
-            //si hay alguna autoridad que sea admin is true
-            loggedUser.getAuthorities().stream().
-                    filter(x -> ("ROLE_ADMIN").equals(x.getAuthority()))
-                    .findFirst().orElse(null); //loggedUser == null;
-
-
-        }
-        return loggedUser != null;
-    }*/
 
     @Override
     public boolean isLoggedUserADMIN() {
@@ -190,25 +172,6 @@ public class UserServiceImpl implements UserService {
     }
 
 
-
-/*    @Override
-    public User changePassword(ChangePasswordForm form) throws Exception {
-        User  user = getUserById(form.getId());
-        if (!user.getPassword().equals(form.getCurrentPassword())){
-            throw new Exception("Current password invalid");
-        }
-        if (user.getPassword().equals(form.getNewPassword())){
-            throw new Exception("New password must be different to actual password!");
-        }
-        if (!form.getNewPassword().equals(form.getConfirmPassword())){
-            throw new Exception("New password and current password must match!");
-        }
-        user.setPassword(form.getNewPassword());
-
-        return repository.save(user);
-    }*/
-
-
     protected void mapUser(User from, User to){
         to.setUsername(from.getUsername());
         to.setFirstName(from.getFirstName());
@@ -218,8 +181,5 @@ public class UserServiceImpl implements UserService {
     }
 
 
-/*    @Override
-    public Iterable<User> getAllUsers() {
-        return repository.findAllByStatus("Active");
-    }*/
+
 }
