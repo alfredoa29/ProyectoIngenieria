@@ -3,6 +3,7 @@ package com.example.demo.service;
 import com.demo.entity.*;
 import com.demo.repository.RoleRepository;
 import com.demo.repository.SolicitudVacacionRepository;
+import com.demo.service.CorreoServiceImp;
 import com.demo.service.SolicitudVacacionImp;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,6 +11,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.*;
@@ -34,7 +36,8 @@ class SolicitudVacacionServiceImpTest {
     @InjectMocks
     private SolicitudVacacionImp solicitudServiceImp;
 
-
+    @Mock
+    private CorreoServiceImp correoServiceImp;
 
     @BeforeEach
     void setUp() {
@@ -224,14 +227,7 @@ class SolicitudVacacionServiceImpTest {
         user1.setConfirmPassword("alfredo1234");
         user1.setRoles(roles);
 
-/*        Optional<Solicitud> solicitud3 = Optional.of(new Solicitud());
-        solicitud3.get().setId(1L);
-        solicitud3.get().setUsuario(user1);
-        solicitud3.get().setEstado(false);
-        solicitud3.get().setFecha("11-11-22");
-        solicitud3.get().setTipoSolicitud(vacacion);
-        solicitud3.get().getFecha();
-        solicitud3.get().getTipoSolicitud().getTipoId();*/
+
 
         SolicitudVacacion solicitud2 = new SolicitudVacacion();
         solicitud2.setId(2L);
@@ -341,6 +337,20 @@ class SolicitudVacacionServiceImpTest {
         //when(solicitudVacacionRepository.findBy()).thenReturn(solicitud);
         Solicitud returned = solicitudServiceImp.findSolicitudByEstadoTrue(solicitud);
         assertThat(returned.getEstado()).isSameAs("Aceptado");
+    }
+
+    @Test
+    void sendEmail() {
+
+
+
+        String toEmail = "alfredoaguerrero1@gmail.com";
+        String body = "cuerpo cel correo";
+        String subject = "pruebaUnit";
+        correoServiceImp.sendEmail(toEmail, subject, body);
+        verify(correoServiceImp).sendEmail(toEmail, subject, body);
+
+
     }
 
 
