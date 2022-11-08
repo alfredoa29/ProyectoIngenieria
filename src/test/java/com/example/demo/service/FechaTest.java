@@ -46,6 +46,6 @@ class FechaTest {
 
 
         Throwable exception = assertThrows(RuntimeException.class, () -> fecha.calcularFecha(date, 2));
-        assertEquals("Debe de escoger un dia laborable", exception.getMessage());
+        assertEquals("ERROR! Debe de escoger un dia  laborable", exception.getMessage());
     }
 }
