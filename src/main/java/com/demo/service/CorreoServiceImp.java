@@ -3,9 +3,14 @@ package com.demo.service;
 import com.demo.entity.NotificacionCorreoElectronico;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailSendException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 
 @Service
 public class CorreoServiceImp implements IEventListener{
@@ -15,24 +20,38 @@ public class CorreoServiceImp implements IEventListener{
     private JavaMailSender mailSender;
 
 
-    public void sendEmail(String toEmail,String  subject, String body){
+    public void sendEmail(String toEmail,String  subject, String body)  {
+
+        try {
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message);
+
         NotificacionCorreoElectronico notiCorreo = new NotificacionCorreoElectronico();
         notiCorreo.setCorreoRemitente("alfredoaguerrero1@gmail.com");
         notiCorreo.setCorreoDestinatario(toEmail);
         notiCorreo.setSubject(subject);
         notiCorreo.setBody(body);
 
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom(notiCorreo.getCorreoRemitente());
-        message.setTo(notiCorreo.getCorreoDestinatario());
-        message.setText(notiCorreo.getBody());
-        message.setSubject(notiCorreo.getSubject());
+        //SimpleMailMessage message = new SimpleMailMessage();
+         helper.setFrom(notiCorreo.getCorreoRemitente());
+        helper.setTo(notiCorreo.getCorreoDestinatario());
+        helper.setText(notiCorreo.getBody());
+        helper.setSubject(notiCorreo.getSubject());
+        boolean html = true;
+        helper.setText("<b>Mensaje de Kiosco Coarsa</b>,<br><i>"+body+"</i>", html);
+
         mailSender.send(message);
+
+
+        }catch (MailSendException | MessagingException e){
+            throw new RuntimeException(e);
+        }
+
     }
 
     @Override
-    public void enviarNotificacion(String tipoEvento, String correo, String mensaje, Long usuarioId, Long solicitudId, String estado) {
-        String mensajeCompleto = "Hola " + usuarioId + " su solicitud con el # de id : " + solicitudId + "ha sido " + tipoEvento + " con el estado " + estado + " puede comprobarla en el quiosco informativo.";
+    public void enviarNotificacion(String tipoEvento, String correo, String mensaje, String nombreUsuario, Long solicitudId, String estado) {
+        String mensajeCompleto =  "Hola " + nombreUsuario + " su solicitud con el # de id : " + solicitudId + " ha sido " + tipoEvento + " con el estado " + estado + " puede comprobarla en el quiosco informativo.";
 
         sendEmail(correo,"Notificacion " + tipoEvento, mensajeCompleto);
     }

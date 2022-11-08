@@ -105,7 +105,7 @@ public class SolicitudVacacionImp implements ISolicitudService<SolicitudVacacion
             solicitud.setEstado("Aceptado");
             solicitudVacacionRepository.save(solicitud);
             editorNotication.eventos.suscribirse("actualizada", correoServiceImp);
-            editorNotication.notificacarCambioDeEstado("actualizada",solicitud.getUsuario().getEmail(), "hola", solicitud.getUsuario().getId(),
+            editorNotication.notificacarCambioDeEstado("actualizada",solicitud.getUsuario().getEmail(), "hola", solicitud.getUsuario().getFirstName(),
                     solicitud.getId(), "aceptada");
         }catch (Exception e){
             throw new Exception("Problema al aceptar la solicitud");
@@ -121,7 +121,7 @@ public class SolicitudVacacionImp implements ISolicitudService<SolicitudVacacion
             solicitud.setEstado("rechazado");
             solicitudVacacionRepository.save(solicitud);
             editorNotication.eventos.suscribirse("actualizada", correoServiceImp);
-            editorNotication.notificacarCambioDeEstado("actualizada",solicitud.getUsuario().getEmail(), "hola", solicitud.getUsuario().getId(),
+            editorNotication.notificacarCambioDeEstado("actualizada",solicitud.getUsuario().getEmail(), "hola", solicitud.getUsuario().getFirstName(),
                     solicitud.getId(), "rechazada");
         }catch (Exception e){
             throw new Exception("Problema al rechazar la solicitud");

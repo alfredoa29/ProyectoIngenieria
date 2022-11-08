@@ -29,8 +29,8 @@ public class Editor {
     }
 
     //metodo que va a ser llamado a la hora que se actualice el estado de la solicitud
-    public void notificacarCambioDeEstado(String tipoEvento, String correo, String mensaje, Long usuarioId, Long solicitudId, String estado){
-        eventos.notificar(tipoEvento, correo,mensaje,usuarioId,solicitudId, estado);
+    public void notificacarCambioDeEstado(String tipoEvento, String correo, String mensaje, String nombreUsuario, Long solicitudId, String estado){
+        eventos.notificar(tipoEvento, correo,mensaje,nombreUsuario,solicitudId, estado);
     }
 
 

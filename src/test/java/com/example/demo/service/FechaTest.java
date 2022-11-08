@@ -36,16 +36,16 @@ class FechaTest {
     }
 
     @Test
-    void calcularFechaReturnaError() {
+    void validarFechas() {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
-        String date = "23/10/2022";
+        String date = "2022/10/2023";
 
         //convert String to LocalDate
-        LocalDate expected = LocalDate.parse(date, formatter);
+        //LocalDate expected = LocalDate.parse(date, formatter);
 
 
-        Throwable exception = assertThrows(RuntimeException.class, () -> fecha.calcularFecha(date, 2));
+        Throwable exception = assertThrows(RuntimeException.class, () -> fecha.validarFechas(date));
         assertEquals("ERROR! Debe de escoger un dia  laborable", exception.getMessage());
     }
 }

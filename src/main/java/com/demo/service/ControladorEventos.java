@@ -35,10 +35,10 @@ public class ControladorEventos {
         users.remove(listener);
     }
 
-    public void notificar(String tipoEvento, String correo, String mensaje, Long usuarioId, Long solicitudId, String estado){
+    public void notificar(String tipoEvento, String correo, String mensaje, String nombreUsuario, Long solicitudId, String estado){
         List<IEventListener> users = listeners.get(tipoEvento);
         for (IEventListener listener : users) {
-              listener.enviarNotificacion(tipoEvento, correo,mensaje,usuarioId,solicitudId,  estado);
+              listener.enviarNotificacion(tipoEvento, correo,mensaje,nombreUsuario,solicitudId,  estado);
         }
     }
 

@@ -2,7 +2,7 @@
 
     <div class="alert alert-danger text-center"  id="errorMessage" th:if="${formErrorMessage}" th:text="${formErrorMessage}">Error MEssage</div>
     <table id="vacacionList" class="table table-bordered table-hover table-striped">
-        <div class="w3-panel w3-green d-none"  id="successMessage"  >Success MEssage</div>
+        <div class="alert alert-success text-center d-none"  id="successMessage"  >Success MEssage</div>
         <thead class="thead-light">
         <tr>
             <span th:if="${#authorization.expression('hasRole(''ROLE_USER'')')}" >
@@ -99,7 +99,7 @@
                     $("#successMessage").removeClass("d-none");
                     $("#successMessage").html("Solicitud aceptada correctamente!.");
 
-                    setTimeout(function(){ window.location.href = '/vacacionForm'; }, 3000);
+                    setTimeout(function(){ window.location.href = '/vacacionForm'; }, 2000);
                 },
                 error: function (e) {
                     $("#errorMessage").addClass( "d-none" );
