@@ -1,5 +1,8 @@
 <div class="table-responsive">
+
+    <div class="alert alert-danger text-center"  id="errorMessage" th:if="${formErrorMessage}" th:text="${formErrorMessage}">Error MEssage</div>
     <table id="userList" class="table table-bordered table-hover table-striped">
+        <div class="w3-panel w3-green d-none"  id="successMessage"  >Success MEssage</div>
         <thead class="thead-light">
         <tr>
             <span th:if="${#authorization.expression('hasRole(''ROLE_USER'')')}" >
@@ -57,9 +60,10 @@
 
 
               <td>
-                <span th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
-                <a href="#" th:href ="@{'/vacacionForm/aceptar/'+${solicitud.id}}" ><i class="fas fa-check-circle"></i></a>
+                <span th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}"> |
+                <a href="#" th:onclick="'javascript:aceptarSolicitudVacacion(\''+${solicitud.id}+'\');'"> <i class="fas fa-check-circle"></i></a>
                 </span>
+
                   <span th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}" >
                     | <a href="#" th:href="@{'/vacacionForm/rechazar/'+${solicitud.id}}" ><i class="fas fa-window-close"></i></a>
                 </span>
@@ -67,11 +71,51 @@
               </td>
 
         </tr>
+
              </span>
 
         </tbody>
+
     </table>
-    <div class="alert alert-danger text-center" th:if="${listErrorMessage}" th:text="${listErrorMessage}">Error MEssage</div>
 
+    <script type="text/javascript">
+        function aceptarSolicitudVacacion(idSolicitud){
+            var params = {};
 
+            params["id"] = idSolicitud;
+            console.log(idSolicitud);
+
+            $.ajax({
+                type: "POST",
+                contentType: "application/json",
+                url: "/vacacionForm/aceptar",
+                data: JSON.stringify(params),
+                dataType: 'text',
+                cache: false,
+                timeout: 600000,
+                success: async function (data) {
+
+                    $("#errorMessage").addClass("d-none");
+                    $("#successMessage").removeClass("d-none");
+                    $("#successMessage").html("Solicitud aceptada correctamente!.");
+
+                    setTimeout(function(){ window.location.href = '/vacacionForm'; }, 3000);
+                },
+                error: function (e) {
+                    $("#errorMessage").addClass( "d-none" );
+                    $("#errorMessage").removeClass( "d-none" );
+                    $("#errorMessage").html(e.responseText);
+                }
+            });
+
+        }
+
+    </script>
+    <script type="text/javascript">
+    function aceptarSolicitudVacacion2(soliId){
+        $("#successMessage").html("Solicitud aceptada correctamente!.");
+    window.location = "/vacacionForm/aceptar/"+soliId;
+    }
+    </script>
 </div>
+

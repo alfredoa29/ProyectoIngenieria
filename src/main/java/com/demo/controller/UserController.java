@@ -399,19 +399,45 @@ public class UserController {
     }
 */
 
+    @PostMapping("/vacacionForm/aceptar")
+    public ResponseEntity aceptarSolicitud(Model model, @RequestBody  SolicitudVacacion solicitudVacacion, Errors errors){
 
-    @GetMapping("/vacacionForm/aceptar/{id}")
+
+            User loggedUser =  new User();
+
+            try {
+                loggedUser = userService.getLoggedUser();
+
+                //If error, just return a 400 bad request, along with the error message
+                if (errors.hasErrors()){
+                    String result = errors.getAllErrors()
+                            .stream().map(x -> x.getDefaultMessage())
+                            .collect(Collectors.joining(""));
+                    throw new Exception(result);
+                }
+                //Long   solicitudId = Long.parseLong(idSolicitud);
+                solicitudVacacionImp.aceptarSolicitud(solicitudVacacion.getId());
+
+            } catch (Exception e){
+                return ResponseEntity.badRequest().body(e.getMessage());
+            }
+
+            return ResponseEntity.ok("success");
+        }
+
+/*   @GetMapping("/vacacionForm/aceptar/{id}")
     public String aceptarSolicitud(Model model, @PathVariable(name ="id") Long id){
         try {
             solicitudVacacionImp.aceptarSolicitud(id);
-
+            model.addAttribute("successMessage", "Solicitud aceptada correctamente");
 
         }catch (Exception e){
             model.addAttribute("listErrorMessage", e.getMessage());
+            model.addAttribute("successMessage", e.getMessage());
         }
 
         return "redirect:/vacacionForm";
-    }
+    }*/
 
     @GetMapping("/vacacionForm/rechazar/{id}")
     public String rechazarSolicitud(Model model, @PathVariable(name ="id") Long id){

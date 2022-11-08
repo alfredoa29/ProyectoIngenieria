@@ -1,7 +1,7 @@
 package com.demo.service;
 
 import com.demo.entity.NotificacionCorreoElectronico;
-import com.demo.entity.Solicitud;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
