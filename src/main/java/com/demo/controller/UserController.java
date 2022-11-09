@@ -439,17 +439,29 @@ public class UserController {
         return "redirect:/vacacionForm";
     }*/
 
-    @GetMapping("/vacacionForm/rechazar/{id}")
-    public String rechazarSolicitud(Model model, @PathVariable(name ="id") Long id){
+    @PostMapping("/vacacionForm/rechazar")
+    public ResponseEntity rechazarSolicitud(Model model, @RequestBody  SolicitudVacacion solicitudVacacion, Errors errors){
+
+        User loggedUser =  new User();
+
         try {
-            solicitudVacacionImp.rechazarSolicitud(id);
+            loggedUser = userService.getLoggedUser();
 
+            //If error, just return a 400 bad request, along with the error message
+            if (errors.hasErrors()){
+                String result = errors.getAllErrors()
+                        .stream().map(x -> x.getDefaultMessage())
+                        .collect(Collectors.joining(""));
+                throw new Exception(result);
+            }
 
-        }catch (Exception e){
-            model.addAttribute("listErrorMessage", e.getMessage());
+            solicitudVacacionImp.rechazarSolicitud(solicitudVacacion.getId());
+
+        } catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
 
-        return "redirect:/vacacionForm";
+        return ResponseEntity.ok("success");
     }
 
 }

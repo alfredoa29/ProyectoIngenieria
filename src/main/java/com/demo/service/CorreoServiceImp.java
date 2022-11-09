@@ -7,12 +7,13 @@ import org.springframework.mail.MailSendException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
-@Service
+@Component
 public class CorreoServiceImp implements IEventListener{
 
 
@@ -51,7 +52,7 @@ public class CorreoServiceImp implements IEventListener{
 
     @Override
     public void enviarNotificacion(String tipoEvento, String correo, String mensaje, String nombreUsuario, Long solicitudId, String estado) {
-        String mensajeCompleto =  "Hola " + nombreUsuario + " su solicitud con el # de id : " + solicitudId + " ha sido " + tipoEvento + " con el estado " + estado + " puede comprobarla en el quiosco informativo.";
+        String mensajeCompleto =  "Hola " + nombreUsuario + " su solicitud con el numero de id: #" + solicitudId + " ha sido " + tipoEvento + " con el estado " + estado + " puede comprobarla en el quiosco informativo.";
 
         sendEmail(correo,"Notificacion " + tipoEvento, mensajeCompleto);
     }

@@ -120,7 +120,7 @@ public class SolicitudVacacionImp implements ISolicitudService<SolicitudVacacion
             SolicitudVacacion solicitud = solicitudVacacionRepository.findById(idSoli).get();
             solicitud.setEstado("rechazado");
             solicitudVacacionRepository.save(solicitud);
-            editorNotication.eventos.suscribirse("actualizada", correoServiceImp);
+            editorNotication.eventos.suscribirse("actualizada", this.correoServiceImp);
             editorNotication.notificacarCambioDeEstado("actualizada",solicitud.getUsuario().getEmail(), "hola", solicitud.getUsuario().getFirstName(),
                     solicitud.getId(), "rechazada");
         }catch (Exception e){
