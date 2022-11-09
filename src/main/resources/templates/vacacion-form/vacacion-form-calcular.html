@@ -55,8 +55,8 @@
         </div>
 
 
-        <div class="alert alert-danger text-center"  id="errorMessage" th:if="${formErrorMessage}" th:text="${formErrorMessage}">Error MEssage</div>
-        <div class="alert alert-success text-center d-none"  id="successMessage"  >Success MEssage</div>
+        <div class="alert alert-success text-center d-none"  id="successMessageForm"  >Success MEssage</div>
+        <div class="alert alert-danger text-center d-none"  id="errorMessageForm" >Error MEssage</div>
     </form>
     </form>
 </div>
@@ -77,19 +77,18 @@
             data: JSON.stringify(params),
             dataType: 'text',
             cache: false,
-            timeout: 600000,
+            timeout: 60000,
             success: async function (data) {
-                $("#vacacionFormEnviar")[0].reset();
-                $("#errorMessage").addClass("d-none");
-                $("#successMessage").removeClass("d-none");
-                $("#successMessage").html("Solicitud creada correctamente!.");
+                $("#errorMessageForm").addClass("d-none");
+                $("#successMessageForm").removeClass("d-none");
+                $("#successMessageForm").html("Solicitud creada correctamente!.");
 
                 setTimeout(function(){ window.location.href = '/vacacionForm'; }, 4000);
             },
             error: function (e) {
-                $("#errorMessage").addClass( "d-none" );
-                $("#errorMessage").removeClass( "d-none" );
-                $("#errorMessage").html(e.responseText);
+                $("#errorMessageForm").addClass( "d-none" );
+                $("#errorMessageForm").removeClass( "d-none" );
+                $("#errorMessageForm").html(e.responseText);
             }
         });
 
