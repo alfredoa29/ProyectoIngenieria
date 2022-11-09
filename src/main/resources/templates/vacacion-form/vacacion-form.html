@@ -24,7 +24,7 @@
             </div>
         </div>
         <div class="form-group row">
-            <label class="col-lg-3 col-form-label form-control-label"> Numero de dias a disfrutar:</label>
+            <label class="col-lg-3 col-form-label form-control-label"> Número de días a disfrutar:</label>
             <div class="col-lg-2">
                 <input class="form-control" type="number" th:field="${vacacionForm.numDias}" th:disabled="${disableFields}" min="1" max="15">
                 <div class="alert-danger" th:if="${#fields.hasErrors('numDias')}" th:errors="*{numDias}">Name Error</div>
