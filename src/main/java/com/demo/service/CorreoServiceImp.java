@@ -38,7 +38,7 @@ public class CorreoServiceImp implements IEventListener{
         helper.setText(notiCorreo.getBody());
         helper.setSubject(notiCorreo.getSubject());
         boolean html = true;
-        helper.setText("<b>Mensaje de Kiosco Coarsa</b>,<br><i>"+body+"</i>", html);
+        helper.setText("<h3>Mensaje de Kiosco Coarsa</h3>,<br><big>"+body+"</big>", html);
 
         mailSender.send(message);
 

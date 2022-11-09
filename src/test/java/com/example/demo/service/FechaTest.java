@@ -25,12 +25,13 @@ class FechaTest {
     void calcularFecha() {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
-        String date = "25/10/2022";
+
+        String date = "2022-10-25";
 
         //convert String to LocalDate
        // LocalDate expected = LocalDate.parse(date, formatter);
         String expected = date;
-        String actual = fecha.calcularFecha("21/10/2022", 2);
+        String actual = fecha.calcularFecha("2022-10-21", 2);
         // deberia devolver que la fecha esperaad es 25/10/2022
         assertEquals(expected, actual);
     }
@@ -39,13 +40,13 @@ class FechaTest {
     void validarFechas() {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
-        String date = "2022/10/2023";
+        String date = "2022-10-23";
 
         //convert String to LocalDate
         //LocalDate expected = LocalDate.parse(date, formatter);
 
 
         Throwable exception = assertThrows(RuntimeException.class, () -> fecha.validarFechas(date));
-        assertEquals("ERROR! Debe de escoger un dia  laborable", exception.getMessage());
+        assertEquals(" ERROR! Debe de escoger un dia  laborable", exception.getMessage());
     }
 }

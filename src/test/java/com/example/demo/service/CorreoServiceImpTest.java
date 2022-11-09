@@ -10,9 +10,11 @@ import com.demo.service.CorreoServiceImp;
 import com.demo.service.SolicitudVacacionImp;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.HashSet;
 import java.util.Optional;
@@ -24,15 +26,8 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.client.ExpectedCount.times;
-
+@ExtendWith(MockitoExtension.class)
 class CorreoServiceImpTest {
-
-
-    @Mock
-    private SolicitudVacacionRepository solicitudVacacionRepository;
-
-
-    private SolicitudVacacion solicitud;
 
 
 
@@ -45,7 +40,7 @@ class CorreoServiceImpTest {
 
     }
 
-    //utilizar el test que ests en solicitudVacacion
+
     @Test
     void sendEmail() {
 
