@@ -12,6 +12,7 @@ public class Editor {
 
         LinkedList<String> operations = new LinkedList<>();
         operations.add("actualizada");
+        operations.add("creada");
 
         this.eventos = new ControladorEventos(operations);
     }

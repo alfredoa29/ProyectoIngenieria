@@ -48,33 +48,33 @@
         <a class="navbar-brand" href="#">COARSA Quiosco Informativo    </a>
         <a class="navbar-text">
             <a <span> Nombre: </span> <a th:text="${usuario.firstName}"> </a>
-              <a th:text="${usuario.lastName}">  </a>
+            <a th:text="${usuario.lastName}">  </a>
             </span>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarText">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/vacaciones">Solicitudes</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/vacaciones">Vacaciones</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/usuario">Usuarios</a>
-                </li>
-            </ul>
-            <span class="navbar-text">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarText">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/vacaciones">Solicitudes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/vacaciones">Vacaciones</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/usuario">Usuarios</a>
+                    </li>
+                </ul>
+                <span class="navbar-text">
            <a class="nav-link" href="#" > <i class="fa fa-user"></i><span th:text="${#authentication.getPrincipal().getUsername()} "> </a>
       </span>
-            <span class="navbar-text">
+                <span class="navbar-text">
            <a class="nav-link" href="#" th:href="@{/logout}"> <span> Desconectar  </span> <span class="float-right"><i class="fas fa-sign-out-alt"></i> </span></a>
       </span>
-        </div>
+            </div>
     </div>
 </nav>
 

@@ -33,6 +33,10 @@ public class CorreoServiceImp implements IEventListener{
         notiCorreo.setSubject(subject);
         notiCorreo.setBody(body);
 
+           // String[] emailIds = new String[1];
+            //emailIds[0] = notiCorreo.getCorreoRemitente();
+            //emailIds[1] = "alfredo.guerrero@cgr.go.cr";
+
         //SimpleMailMessage message = new SimpleMailMessage();
          helper.setFrom(notiCorreo.getCorreoRemitente());
         helper.setTo(notiCorreo.getCorreoDestinatario());
@@ -52,7 +56,7 @@ public class CorreoServiceImp implements IEventListener{
 
     @Override
     public void enviarNotificacion(String tipoEvento, String correo, String mensaje, String nombreUsuario, Long solicitudId, String estado) {
-        String mensajeCompleto =  "Hola " + nombreUsuario + " su solicitud con el numero de id: #" + solicitudId + " ha sido " + tipoEvento + " con el estado " + estado + " puede comprobarla en el quiosco informativo.";
+        String mensajeCompleto =  "Hola " + nombreUsuario + " la solicitud con el numero de id: #" + solicitudId + " ha sido " + tipoEvento + " con el estado " + estado + " puede comprobarla en el quiosco informativo.";
 
         sendEmail(correo,"Notificacion " + tipoEvento, mensajeCompleto);
     }

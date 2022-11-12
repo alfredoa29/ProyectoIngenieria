@@ -45,8 +45,10 @@ public class SolicitudVacacionImp implements ISolicitudService<SolicitudVacacion
     @Override
     public SolicitudVacacion crearSolicitudPersonal(SolicitudVacacion solicitudVacacion) {
 
-
+        editorNotication.eventos.suscribirse("creada", this.correoServiceImp);
+        editorNotication.notificacarCambioDeEstado("creada","alfredo.guerrero@cgr.go.cr", "hola", "Administrador", 3L, "creada");
         return solicitudVacacionRepository.save(solicitudVacacion);
+
     }
 
 
