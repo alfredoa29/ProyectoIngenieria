@@ -26,7 +26,7 @@
     <link rel="stylesheet" type="text/css" href="static/css/user-form.css"
           th:href="@{/css/user-form.css}">
     <link rel="stylesheet" type="text/css" href="static/css/sidebar.css"
-          th:href="@{/css/sidebar.css}">
+          th:href="@{/css/navbar.css}">
     <!-- DATA TABLE -->
     <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
@@ -47,16 +47,16 @@
     <div class="container-fluid">
         <a class="navbar-brand" href="#">COARSA Quiosco Informativo    </a>
         <a class="navbar-text">
-            <a <span> Nombre: </span> <a th:text="${usuario.firstName}"> </a>
-            <a th:text="${usuario.lastName}">  </a>
-            </span>
+            <a > </a>
+
+
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarText">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/vacaciones">Solicitudes</a>
