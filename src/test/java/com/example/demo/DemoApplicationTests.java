@@ -3,7 +3,7 @@ package com.example.demo;
 import com.demo.entity.SolicitudVacacion;
 import com.demo.repository.RoleRepository;
 import com.demo.repository.SolicitudVacacionRepository;
-import com.demo.service.CorreoServiceImp;
+import com.demo.service.NotificacionCorreoServiceImp;
 import com.demo.service.SolicitudVacacionImp;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -24,7 +24,7 @@ class DemoApplicationTests {
     private SolicitudVacacionImp solicitudServiceImp;
 
     @InjectMocks
-    private CorreoServiceImp correoServiceImp;
+    private NotificacionCorreoServiceImp notificacionCorreoServiceImp;
 
     @Test
     void contextLoads() {

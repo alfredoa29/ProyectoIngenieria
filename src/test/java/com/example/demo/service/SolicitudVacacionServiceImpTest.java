@@ -3,7 +3,7 @@ package com.example.demo.service;
 import com.demo.entity.*;
 import com.demo.repository.RoleRepository;
 import com.demo.repository.SolicitudVacacionRepository;
-import com.demo.service.CorreoServiceImp;
+import com.demo.service.NotificacionCorreoServiceImp;
 import com.demo.service.SolicitudVacacionImp;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,7 +11,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.*;
@@ -37,7 +36,7 @@ class SolicitudVacacionServiceImpTest {
     private SolicitudVacacionImp solicitudServiceImp;
 
     @Mock
-    private CorreoServiceImp correoServiceImp;
+    private NotificacionCorreoServiceImp notificacionCorreoServiceImp;
 
     @BeforeEach
     void setUp() {
@@ -347,8 +346,8 @@ class SolicitudVacacionServiceImpTest {
         String toEmail = "alfredoaguerrero1@gmail.com";
         String body = "cuerpo cel correo";
         String subject = "pruebaUnit";
-        correoServiceImp.sendEmail(toEmail, subject, body);
-        verify(correoServiceImp).sendEmail(toEmail, subject, body);
+        notificacionCorreoServiceImp.sendEmail(toEmail, subject, body);
+        verify(notificacionCorreoServiceImp).sendEmail(toEmail, subject, body);
 
 
     }

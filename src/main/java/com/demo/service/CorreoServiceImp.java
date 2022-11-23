@@ -1,63 +1,88 @@
 package com.demo.service;
 
-import com.demo.entity.NotificacionCorreoElectronico;
-
+import com.demo.entity.CorreoElectronico;
+import com.demo.repository.EmailRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailSendException;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
-
+import java.util.LinkedList;
+import java.util.List;
 @Component
-public class CorreoServiceImp implements IEventListener{
+public class CorreoServiceImp {
 
 
     @Autowired
-    private JavaMailSender mailSender;
+    EmailRepository emailRepository;
 
 
-    public void sendEmail(String toEmail,String  subject, String body)  {
-
+    public void CrearCorreo(CorreoElectronico correoElectronico){
         try {
-        MimeMessage message = mailSender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(message);
 
-        NotificacionCorreoElectronico notiCorreo = new NotificacionCorreoElectronico();
-        notiCorreo.setCorreoRemitente("alfredoaguerrero1@gmail.com");
-        notiCorreo.setCorreoDestinatario(toEmail);
-        notiCorreo.setSubject(subject);
-        notiCorreo.setBody(body);
+            emailRepository.save(correoElectronico);
 
-           // String[] emailIds = new String[1];
-            //emailIds[0] = notiCorreo.getCorreoRemitente();
-            //emailIds[1] = "alfredo.guerrero@cgr.go.cr";
-
-        //SimpleMailMessage message = new SimpleMailMessage();
-         helper.setFrom(notiCorreo.getCorreoRemitente());
-        helper.setTo(notiCorreo.getCorreoDestinatario());
-        helper.setText(notiCorreo.getBody());
-        helper.setSubject(notiCorreo.getSubject());
-        boolean html = true;
-        helper.setText("<h3>Mensaje de Kiosco Coarsa</h3>,<br><big>"+body+"</big>", html);
-
-        mailSender.send(message);
-
-
-        }catch (MailSendException | MessagingException e){
-            throw new RuntimeException(e);
+        }catch (Exception e) {
+            throw new RuntimeException("Problema al guardar el correo electronico");
         }
-
     }
 
-    @Override
-    public void enviarNotificacion(String tipoEvento, String correo, String mensaje, String nombreUsuario, Long solicitudId, String estado) {
-        String mensajeCompleto =  "Hola " + nombreUsuario + " la solicitud con el numero de id: #" + solicitudId + " ha sido " + tipoEvento + " con el estado " + estado + " puede comprobarla en el quiosco informativo.";
 
-        sendEmail(correo,"Notificacion " + tipoEvento, mensajeCompleto);
+    public LinkedList<String> adminEmails() {
+
+        List<CorreoElectronico> correoElectronicos = new LinkedList<>();
+        LinkedList<String> correosAdmin = new LinkedList<>();
+        String admin = "administrador";
+        try {
+
+
+            correoElectronicos = emailRepository.findAll();
+
+            for (int i=0; i<correoElectronicos.size(); i++){
+                if (correoElectronicos.get(i).getTipoDeCorreo().equals(admin)){
+                    correosAdmin.add(correoElectronicos.get(i).getCorreoElectronico());
+                }
+            }
+
+            return correosAdmin;
+
+        } catch (MailSendException e) {
+            throw new RuntimeException("Problema al encontrar el correo del administrador");
+        }
     }
+
+    public List<CorreoElectronico> correoElectronicoList() {
+
+        List<CorreoElectronico> correoElectronicos = new LinkedList<>();
+        LinkedList<String> correosAdmin = new LinkedList<>();
+        String admin = "administrador";
+        try {
+
+
+            correoElectronicos = emailRepository.findAll();
+
+            for (int i=0; i<correoElectronicos.size(); i++){
+                if (correoElectronicos.get(i).getTipoDeCorreo().equals(admin)){
+                    correosAdmin.add(correoElectronicos.get(i).getCorreoElectronico());
+                }
+            }
+
+            return correoElectronicos;
+
+        } catch (MailSendException e) {
+            throw new RuntimeException("Problema al encontrar el correo del administrador");
+        }
+    }
+
+
+    public void eliminarCorreo(Long idCorreo){
+        try {
+
+                emailRepository.deleteById(idCorreo);
+
+        } catch (MailSendException e) {
+            throw new RuntimeException("Problema al eliminar el correo del administrador");
+        }
+    }
+
+
 }

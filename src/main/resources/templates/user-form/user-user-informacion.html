@@ -33,33 +33,7 @@
     <script type="text/javascript">
         $(document).ready(function() {
             //Asegurate que el id que le diste a la tabla sea igual al texto despues del simbolo #
-            $('#userList').DataTable(({
-                "language": {
-                    "sProcessing":    "Procesando...",
-                    "sLengthMenu":    "Mostrar _MENU_ registros",
-                    "sZeroRecords":   "No se encontraron resultados",
-                    "sEmptyTable":    "Ningún dato disponible en esta tabla",
-                    "sInfo":          "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-                    "sInfoEmpty":     "Mostrando registros del 0 al 0 de un total de 0 registros",
-                    "sInfoFiltered":  "(filtrado de un total de _MAX_ registros)",
-                    "sInfoPostFix":   "",
-                    "sSearch":        "Buscar:",
-                    "sUrl":           "",
-                    "sInfoThousands":  ",",
-                    "sLoadingRecords": "Cargando...",
-                    "oPaginate": {
-                        "sFirst":    "Primero",
-                        "sLast":    "Último",
-                        "sNext":    "Siguiente",
-                        "sPrevious": "Anterior"
-                    },
-                    "oAria": {
-                        "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
-                        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-                    }
-                }
-            }))
-
+            $('#userList').DataTable();
         } );
     </script>
     <script>
@@ -74,31 +48,20 @@
 <div class="container">
     <div class="mx-auto col-sm-50 main-section" id="myTab" role="tablist">
         <ul class="nav nav-tabs justify-content-end">
+
             <li class="nav-item">
-                <a class="nav-link " th:classappend=" ${listTab}" id="list-tab" data-toggle="tab" href="#list" role="tab" aria-controls="list" aria-selected="false">Lista de Usuarios</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" th:classappend=" ${formTab}" id="form-tab" data-toggle="tab" href="#form" role="tab" aria-controls="form" aria-selected="true">Crear Usuario</a>
+                <a class="nav-link" th:classappend=" ${formTab}" id="form-tab" data-toggle="tab" href="#form" role="tab" aria-controls="form" aria-selected="true">Informacion del Usuario</a>
             </li>
 
         </ul>
         <div class="tab-content" id="myTabContent">
-            <div class="tab-pane fade show active" th:classappend=" ${listTab}" id="list" role="tabpanel" aria-labelledby="list-tab">
-                <div class="card">
-                    <div class="card-header">
-                        <h4>Lista de Usuarios</h4>
-                    </div>
-                    <div class="card-body">
-                        <div th:include="user-form/user-list.html" th:remove="tag"></div>
 
-                    </div>
-                </div>
-            </div>
             <div class="tab-pane fade show" th:classappend=" ${formTab}" id="form" role="tabpanel" aria-labelledby="form-tab">
                 <div class="card">
                     <div class="card-header">
                         <h4>Informacion del Usuario </h4>
                     </div>
+
                     <div class="card-body">
                         <div th:include="user-form/user-form.html" th:remove="tag"></div>
                     </div>

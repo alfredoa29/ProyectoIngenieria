@@ -35,7 +35,33 @@
     <script type="text/javascript">
         $(document).ready(function() {
             //Asegurate que el id que le diste a la tabla sea igual al texto despues del simbolo #
-            $('#vacacionList').DataTable();
+            $('#vacacionList').DataTable(({
+                "language": {
+                    "sProcessing":    "Procesando...",
+                    "sLengthMenu":    "Mostrar _MENU_ registros",
+                    "sZeroRecords":   "No se encontraron resultados",
+                    "sEmptyTable":    "Ningún dato disponible en esta tabla",
+                    "sInfo":          "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                    "sInfoEmpty":     "Mostrando registros del 0 al 0 de un total de 0 registros",
+                    "sInfoFiltered":  "(filtrado de un total de _MAX_ registros)",
+                    "sInfoPostFix":   "",
+                    "sSearch":        "Buscar:",
+                    "sUrl":           "",
+                    "sInfoThousands":  ",",
+                    "sLoadingRecords": "Cargando...",
+                    "oPaginate": {
+                        "sFirst":    "Primero",
+                        "sLast":    "Último",
+                        "sNext":    "Siguiente",
+                        "sPrevious": "Anterior"
+                    },
+                    "oAria": {
+                        "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                    }
+                }
+            }))
+
         } );
     </script>
     <script>
@@ -55,9 +81,6 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link" th:classappend="${vacaFormTab}" id="vacaform-tab" data-toggle="tab" href="#form" role="tab" aria-controls="form" aria-selected="true">Solicitar Vacaciones</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#" th:href="@{/logout}"> <span th:text="${#authentication.getPrincipal().getUsername()}"></span> - <span>logout  </span><span class="float-right"> <i class="fas fa-sign-out-alt"></i></span></a>
             </li>
         </ul>
         <div class="tab-content" id="myTabContent">

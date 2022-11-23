@@ -64,15 +64,28 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/vacaciones">Vacaciones</a>
                     </li>
-                    <li class="nav-item">
+                    <li th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}" class="nav-item">
                         <a class="nav-link" href="/usuario">Usuarios</a>
                     </li>
                 </ul>
-                <span class="navbar-text">
-           <a class="nav-link" href="#" > <i class="fa fa-user"></i><span th:text="${#authentication.getPrincipal().getUsername()} "> </a>
+
+                <span th:if="${#authorization.expression('hasRole(''ROLE_USER'')')}" class="navbar-text">
+           <a class="nav-link" href="/informacion" > <i class="fa fa-user"> </i> <span th:text="${#authentication.getPrincipal().getUsername()} "> </a>
+
+             </span>
+                <span th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}" class="navbar-text">
+           <a class="nav-link" href="#" > <i class="fa fa-user"> </i> <span th:text="${#authentication.getPrincipal().getUsername()} "> </a>
+
+             </span>
+                <span th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}" class="navbar-text">
+
+
+                          <a class="nav-link" href="/ajustes" >  <i class="	fa fa-wrench"></i> <span> Ajustes  </span></a>
       </span>
+      </span>
+
                 <span class="navbar-text">
-           <a class="nav-link" href="#" th:href="@{/logout}"> <span> Desconectar  </span> <span class="float-right"><i class="fas fa-sign-out-alt"></i> </span></a>
+           <a class="nav-link" href="#" th:href="@{/logout}"> <span> Desconectar  </span> <span class="float-right"> <i class="fas fa-sign-out-alt"></i> </span></a>
       </span>
             </div>
     </div>

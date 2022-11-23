@@ -1,15 +1,13 @@
 package com.demo.controller;
 
 import com.demo.dto.ChangePasswordForm;
+import com.demo.entity.CorreoElectronico;
 import com.demo.entity.SolicitudVacacion;
-import com.demo.service.Fecha;
+import com.demo.service.*;
 import com.demo.entity.User;
 import com.demo.entity.Vacacion;
 import com.demo.repository.RoleRepository;
-import com.demo.service.RoleService;
 
-import com.demo.service.ISolicitudService;
-import com.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -42,6 +40,9 @@ public class UserController {
 
     @Autowired
     ISolicitudService solicitudVacacionImp;
+
+    @Autowired
+    CorreoServiceImp correoServiceImp;
 
 
     @GetMapping({"/", "/login"})
@@ -98,6 +99,28 @@ public class UserController {
 
     }
 
+    @GetMapping("/ajustes")
+    public String ajustesUser(Model model) {
+        try {
+
+            if (!userService.isLoggedUserADMIN()) {
+                model.addAttribute("correoList", correoServiceImp.correoElectronicoList());
+                model.addAttribute("lisTab", "active");
+
+                return   "user-form/user-ajustes-view"; //en teoria si el usuario no es admin lo lleva a una ventana diferente
+            } else {
+
+                model.addAttribute("correoList", correoServiceImp.correoElectronicoList());
+                model.addAttribute("lisTab", "active");
+                return  "user-form/user-ajustes-view";
+            }
+
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+    }
     @PostMapping("/userForm")
     public String postUserForm(@Valid @ModelAttribute("userForm")User user, BindingResult result, ModelMap model) {
         if(result.hasErrors()) {
@@ -172,6 +195,70 @@ public class UserController {
         return "user-form/user-view";
     }
 
+    @GetMapping("/informacion")
+    public String postMostarUsuarioInformacion(@Valid @ModelAttribute("userForm")User user, BindingResult result, ModelMap model) {
+
+        User loggedUser = new User();
+        try {
+            loggedUser = userService.getLoggedUser();
+        } catch (Exception e) {
+            model.addAttribute("formErrorMessage",e.getMessage());
+            model.addAttribute("userForm", loggedUser);
+            model.addAttribute("formTab","active");
+            model.addAttribute("roles",roleRepository.findAll());
+            model.addAttribute("editMode", true);
+            model.addAttribute("passwordForm", new ChangePasswordForm(user.getId()));
+        }
+
+        try {
+            if (!userService.isLoggedUserADMIN()) {
+                model.addAttribute("userForm", loggedUser);
+
+                model.addAttribute("roles", roleRepository.findAll());
+                model.addAttribute("formTab", "active");
+                return   "user-form/user-user-informacion"; //en teoria si el usuario no es admin lo lleva a una ventana diferente
+            } else {
+                model.addAttribute("userForm", loggedUser);
+                model.addAttribute("roles", roleRepository.findAll());
+                model.addAttribute("formTab", "active");
+                return   "user-form/user-user-informacion";
+            }
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    @PostMapping("/ajustes/crearCorreo")
+    public ResponseEntity correoCrearCorreo(@Valid @RequestBody CorreoElectronico correoElectrornico, Errors errors){
+
+
+        CorreoElectronico electronico = correoElectrornico;
+        electronico.setCorreoElectronico("administrador");
+
+        try {
+
+
+            //If error, just return a 400 bad request, along with the error message
+            if (errors.hasErrors()){
+                String result = errors.getAllErrors()
+                        .stream().map(x -> x.getDefaultMessage())
+                        .collect(Collectors.joining(""));
+                throw new Exception(result);
+            }
+
+            correoServiceImp.CrearCorreo(electronico);
+
+        } catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+
+        return ResponseEntity.ok("success");
+    }
+
+
+
     @GetMapping("/userForm/cancel")
     public String cancelEditUser(ModelMap model){
         return "redirect:/userForm";
@@ -194,6 +281,19 @@ public class UserController {
         }
         //retorna variable de arriba
         return userForm(model);
+    }
+
+    @GetMapping("/eliminarCorreo/{id}")
+    public String deleteCorreo(Model model, @PathVariable(name ="id") Long id){
+        try {
+            correoServiceImp.eliminarCorreo(id);
+
+
+        }catch (Exception e){
+            model.addAttribute("listErrorMessage", e.getMessage());
+        }
+        //retorna variable de arriba
+        return "redirect::/informacion";
     }
     //Response ayuda a manejar una respuesta adecuada http"
     //Valid para validarr el formulario
@@ -312,92 +412,7 @@ public class UserController {
     }
 
 
-  /*  @PostMapping("/vacacionForm/crearSolicitud")
-    public String vacacionCrearSolicitudVacacion(@Valid @ModelAttribute("vacacionForm") Vacacion vacacion, BindingResult result, ModelMap model, HttpServletRequest request){
 
-
-        Fecha fecha = new Fecha();
-        User loggedUser =  new User();
-
-        try {
-            loggedUser = userService.getLoggedUser();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-
-        if(result.hasErrors()){
-            model.addAttribute("vacacionForm", vacacion);
-            model.addAttribute("vacaFormTab", "active");
-            model.addAttribute("vacacionList", solicitudVacacionImp.encontrarSolicitudesPorUsuario(loggedUser));
-            //model.addAttribute("editMode", "true");
-
-        }else {
-            try {
-                SolicitudVacacion solicitudVacacion = new SolicitudVacacion();
-                solicitudVacacion.setVacacion(vacacion);
-                solicitudVacacion.setUsuario(loggedUser);
-                solicitudVacacion.setEstado("En espera");
-                solicitudVacacionImp.crearSolicitudPersonal(solicitudVacacion);
-                    request.getSession().setAttribute("successMessage", "Solicitud creada correctamente!");
-                    model.addAttribute("vacacionForm", vacacion);
-                    model.addAttribute("vacaFormTab","active");
-                    model.addAttribute("vacacionList", solicitudVacacionImp.encontrarSolicitudesPorUsuario(loggedUser));
-
-                    return  "vacacion-form/vacacion-view-enviar-solicitud";
-
-
-
-
-            }catch (Exception e) {
-                model.addAttribute("formErrorMessage",e.getMessage());
-                model.addAttribute("vacacionForm", vacacion);
-                model.addAttribute("vacaFormTab","active");
-                model.addAttribute("vacacionList", solicitudVacacionImp.encontrarSolicitudesPorUsuario(loggedUser));
-            }
-
-            model.addAttribute("vacacionList", solicitudVacacionImp.encontrarSolicitudesPorUsuario(loggedUser));
-        }
-        return "vacacion-form/vacacion-view";
-    }*/
-
-/*
-    @PostMapping("/vacacionForm")
-    public String postVacacionForm(@Valid @ModelAttribute("vacacionForm") Vacacion vacacion, BindingResult result, ModelMap model){
-
-        User loggedUser =  new User();
-        if(result.hasErrors()){
-            model.addAttribute("vacacionForm", vacacion);
-            model.addAttribute("vacaFormTab", "active");
-            //model.addAttribute("editMode", "true");
-
-        }else {
-            try {
-
-
-                loggedUser = userService.getLoggedUser();
-                SolicitudVacacion solicitud = new SolicitudVacacion();
-                solicitud.setEstado("En espera");
-                solicitud.setUsuario(loggedUser);
-                solicitud.setVacacion(vacacion);
-                solicitudVacacionImp.crearSolicitudPersonal(solicitud);
-                model.addAttribute("vacacionForm", new Vacacion() );
-                model.addAttribute("vacacionList", "active");
-                model.addAttribute("vacacionList", solicitudVacacionImp.encontrarSolicitudesPorUsuario(loggedUser));
-
-            } catch (Exception e) {
-                model.addAttribute("formErrorMessage",e.getMessage());
-                model.addAttribute("vacacionForm", vacacion);
-                model.addAttribute("vacaFormTab","active");
-                model.addAttribute("vacacionList", solicitudVacacionImp.encontrarSolicitudesPorUsuario(loggedUser));
-
-
-            }
-            model.addAttribute("vacacionList", solicitudVacacionImp.encontrarSolicitudesPorUsuario(loggedUser));
-
-        }
-        return "vacacion-form/vacacion-view";
-    }
-*/
 
     @PostMapping("/vacacionForm/aceptar")
     public ResponseEntity aceptarSolicitud(Model model, @RequestBody  SolicitudVacacion solicitudVacacion, Errors errors){
@@ -425,19 +440,7 @@ public class UserController {
             return ResponseEntity.ok("success");
         }
 
-/*   @GetMapping("/vacacionForm/aceptar/{id}")
-    public String aceptarSolicitud(Model model, @PathVariable(name ="id") Long id){
-        try {
-            solicitudVacacionImp.aceptarSolicitud(id);
-            model.addAttribute("successMessage", "Solicitud aceptada correctamente");
 
-        }catch (Exception e){
-            model.addAttribute("listErrorMessage", e.getMessage());
-            model.addAttribute("successMessage", e.getMessage());
-        }
-
-        return "redirect:/vacacionForm";
-    }*/
 
     @PostMapping("/vacacionForm/rechazar")
     public ResponseEntity rechazarSolicitud(Model model, @RequestBody  SolicitudVacacion solicitudVacacion, Errors errors){

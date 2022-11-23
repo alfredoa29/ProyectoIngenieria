@@ -26,3 +26,18 @@ label{
 .nav-tabs{
     border-bottom:0px;
 }
+
+.containerForm{
+    border-top: outset;
+
+    margin: 5%;
+    padding: 3%;
+}
+
+.table-correo{
+    padding-bottom: 5px;
+}
+.nav{
+    display: -webkit-inline-flex;
+
+}

@@ -2,11 +2,11 @@ package com.demo.service;
 
 import com.demo.entity.SolicitudVacacion;
 import com.demo.entity.User;
-import com.demo.entity.Vacacion;
 import com.demo.repository.SolicitudVacacionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -18,8 +18,15 @@ public class SolicitudVacacionImp implements ISolicitudService<SolicitudVacacion
 
     @Autowired
     Editor editorNotication;
+
     @Autowired
-    IEventListener correoServiceImp;
+    IEventListener notificacionCorreoServiceImp;
+
+
+    @Autowired
+    CorreoServiceImp correoServiceImp;
+
+
 
     @Override
     public SolicitudVacacion encontrarSolicitudPorId(Long id) {
@@ -45,8 +52,10 @@ public class SolicitudVacacionImp implements ISolicitudService<SolicitudVacacion
     @Override
     public SolicitudVacacion crearSolicitudPersonal(SolicitudVacacion solicitudVacacion) {
 
-        editorNotication.eventos.suscribirse("creada", this.correoServiceImp);
-        editorNotication.notificacarCambioDeEstado("creada","alfredo.guerrero@cgr.go.cr", "hola", "Administrador", 3L, "creada");
+        List<String> adminEmails = correoServiceImp.adminEmails();
+
+        editorNotication.eventos.suscribirse("creada", this.notificacionCorreoServiceImp);
+        editorNotication.notificacarCambioDeEstado("creada",adminEmails , "Administrador", 3L, "creada");
         return solicitudVacacionRepository.save(solicitudVacacion);
 
     }
@@ -102,12 +111,16 @@ public class SolicitudVacacionImp implements ISolicitudService<SolicitudVacacion
 
     @Override
     public void aceptarSolicitud(Long idSoli) throws Exception {
+
+        List<String> emails = new ArrayList<>();
+
         try {
             SolicitudVacacion solicitud = solicitudVacacionRepository.findById(idSoli).get();
             solicitud.setEstado("Aceptado");
+            emails.add(solicitud.getUsuario().getEmail());
             solicitudVacacionRepository.save(solicitud);
-            editorNotication.eventos.suscribirse("actualizada", correoServiceImp);
-            editorNotication.notificacarCambioDeEstado("actualizada",solicitud.getUsuario().getEmail(), "hola", solicitud.getUsuario().getFirstName(),
+            editorNotication.eventos.suscribirse("actualizada", notificacionCorreoServiceImp);
+            editorNotication.notificacarCambioDeEstado("actualizada",emails, solicitud.getUsuario().getUsername(),
                     solicitud.getId(), "aceptada");
         }catch (Exception e){
             throw new Exception("Problema al aceptar la solicitud");
@@ -117,13 +130,17 @@ public class SolicitudVacacionImp implements ISolicitudService<SolicitudVacacion
 
     @Override
     public void rechazarSolicitud(Long idSoli) throws Exception {
+
+        List<String> emails = new ArrayList<>();
+
         try {
-            CorreoServiceImp correoServiceImp = new CorreoServiceImp();
+            NotificacionCorreoServiceImp notificacionCorreoServiceImp = new NotificacionCorreoServiceImp();
             SolicitudVacacion solicitud = solicitudVacacionRepository.findById(idSoli).get();
+            emails.add(solicitud.getUsuario().getEmail());
             solicitud.setEstado("rechazado");
             solicitudVacacionRepository.save(solicitud);
-            editorNotication.eventos.suscribirse("actualizada", this.correoServiceImp);
-            editorNotication.notificacarCambioDeEstado("actualizada",solicitud.getUsuario().getEmail(), "hola", solicitud.getUsuario().getFirstName(),
+            editorNotication.eventos.suscribirse("actualizada", this.notificacionCorreoServiceImp);
+            editorNotication.notificacarCambioDeEstado("actualizada",emails, solicitud.getUsuario().getUsername(),
                     solicitud.getId(), "rechazada");
         }catch (Exception e){
             throw new Exception("Problema al rechazar la solicitud");

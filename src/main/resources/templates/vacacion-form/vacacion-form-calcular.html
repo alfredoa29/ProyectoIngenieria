@@ -42,7 +42,7 @@
             <label class="col-lg-3 col-form-label form-control-label">Fecha hasta: </label>
             <div class="col-lg-3">
                 <input class="form-control" type="date" th:field="${vacacionForm.fechaFinal}" disabled>
-                <div class="alert alert-danger text-center" th:if="${formErrorMessage}" th:text="${formErrorMessage}">Error MEssage</div>
+
                 <div class="alert-danger" th:if="${#fields.hasErrors('fechaFinal')}" th:errors="*{fechaFinal}">Name Error</div>
             </div>
         </div>
