@@ -45,7 +45,7 @@ public class CorreoServiceImp {
 
             return correosAdmin;
 
-        } catch (MailSendException e) {
+        } catch (Exception e) {
             throw new RuntimeException("Problema al encontrar el correo del administrador");
         }
     }
@@ -68,7 +68,7 @@ public class CorreoServiceImp {
 
             return correoElectronicos;
 
-        } catch (MailSendException e) {
+        } catch (Exception e) {
             throw new RuntimeException("Problema al encontrar el correo del administrador");
         }
     }
@@ -79,7 +79,7 @@ public class CorreoServiceImp {
 
                 emailRepository.deleteById(idCorreo);
 
-        } catch (MailSendException e) {
+        } catch (Exception e) {
             throw new RuntimeException("Problema al eliminar el correo del administrador");
         }
     }
